@@ -1,0 +1,134 @@
+Building a full-stack, feature-rich web application like this is a massive undertaking. Because you are using an AI coding assistant and want to build it step-by-step, feeding the AI one giant prompt to build the entire site at once will result in cut-off code and context errors.
+
+The most effective strategy is to use a **Master Setup Prompt** to give the AI the complete context, design language, and tech stack, followed by **Phased Prompts** to build the application module by module.
+
+Here is the exact prompt structure you should use. Copy and paste the text in the blocks below into your AI builder.
+
+### The Master Setup Prompt
+
+*Copy and paste this first. This tells the AI what the project is, the visual identity, and the tech stack, and instructs it to wait for your next command.*
+
+> **Act as an Expert Full-Stack Web Developer and UI/UX Designer.**
+> **Project Overview:**
+> I am building a comprehensive web platform for my business, "Wimalasooriya Farm". The goal is to promote the farm, handle e-commerce (retail and bulk egg orders), manage customer communications, and provide internal business/financial analytics.
+> **Tech Stack:**
+> * **Frontend:** React.js
+> * **Backend:** Node.js with Express.js
+> * **Database:** MongoDB Atlas (Free Tier)
+> * **Styling:** CSS Modules or Tailwind CSS (optimized for animations and responsiveness)
+> 
+> 
+> **Design System & Visual Identity:**
+> The design must be highly responsive, animated, user-friendly, and interactive. Use the following exact color palette to evoke a "crystal-cold winter landscape, purity, and winter elegance":
+> * `#5D6474` (Deep Blue-Gray / Shadows on snow) - *Use for primary text, deep borders, and footer backgrounds.*
+> * `#A7A6B0` (Lavender-Gray / Distant mountains) - *Use for secondary text, subtle shadows, and card borders.*
+> * `#ECEDE6` (Pure Snow / Frosty freshness) - *Use for main backgrounds, card surfaces, and negative space.*
+> * `#8CA9BD` (Light Blue / Sky reflection) - *Use for interactive elements, hover states, and secondary buttons.*
+> * `#6498AF` (Medium Blue-Gray / Ice) - *Use for primary buttons, active states, and headers.*
+> 
+> 
+> **Development Methodology:**
+> Because this is a large system, we will build it step-by-step. Do not attempt to write the entire backend and frontend at once. I will guide you through phases.
+> **Your First Task:**
+> Acknowledge you understand this Master Setup. Then, provide me with a recommended folder structure for the `frontend` and `backend` repositories, and output a `package.json` with the necessary dependencies for both. Wait for my command to begin Phase 1.
+
+---
+
+### The Phased Prompts
+
+*Once the AI completes the Master Setup, feed it these prompts one by one, waiting for it to finish the code for each phase before moving on.*
+
+#### Phase 1: Frontend Foundation & Marketing Pages
+
+> **Execute Phase 1: Core Routing & Marketing Pages**
+> Build the React frontend foundation.
+> 1. Set up React Router.
+> 2. Create a persistent, responsive Navigation Bar and Footer using the winter color palette.
+> 3. Build the **Home/Landing Page** to promote Wimalasooriya Farm. Include a hero section with a snowy/fresh aesthetic, animated entry elements, and a call-to-action.
+> 4. Build the **About Us** and **Contact Us** pages.
+> Ensure all UI components are fully responsive and utilize smooth CSS transitions for interactivity.
+> 
+> 
+
+#### Phase 2: Authentication & User Profiles
+
+> **Execute Phase 2: User Registration & Profiles**
+> 1. **Backend:** Create the Express/Node backend routes for User Authentication (Register, Login, JWT generation). Set up the MongoDB User schema.
+> 2. **Frontend:** Build the Login and Registration forms.
+> 3. **Frontend:** Create a User Dashboard (Profile Page) where a logged-in user can view and edit their personal details.
+> Secure the routes and ensure smooth error handling and user feedback (e.g., toast notifications).
+> 
+> 
+
+#### Phase 3: E-Commerce (Retail & Bulk)
+
+> **Execute Phase 3: The Egg Shop**
+> 1. **Backend:** Create MongoDB schemas and Express routes for Products (Eggs) and Orders.
+> 2. **Frontend:** Build the **Retail Shop** page displaying different egg packages. Include an interactive shopping cart.
+> 3. **Frontend:** Build a dedicated **Bulk Orders** form for B2B clients to request massive quantities.
+> 4. Connect the checkout process so that successful orders are saved to the user's profile and the database.
+> 
+> 
+
+#### Phase 4: Admin Panel & Financial Analytics
+
+> **Execute Phase 4: Admin Dashboard & Finance**
+> 1. **Backend:** Create protected Express routes restricted to "Admin" roles. Build endpoints to fetch total sales, revenue, and active orders.
+> 2. **Frontend:** Build a secure Admin Dashboard layout.
+> 3. Add functionality for the Admin to edit Egg Prices and create promotional offers.
+> 4. Build a **Financial Management & Business Analytics** view using a charting library (like Recharts or Chart.js) to visualize sales data and revenue cleanly, using the `#6498AF` and `#8CA9BD` colors for the graphs.
+> 
+> 
+
+#### Phase 5: Customer Management System & Live Chat
+
+> **Execute Phase 5: CMS & Live Chat**
+> 1. **Backend:** Integrate `socket.io` into the Express server to handle real-time bi-directional communication. Set up a Chat/Message schema in MongoDB to save chat history.
+> 2. **Frontend:** Create a floating chat widget for standard users to ask questions.
+> 3. **Frontend Admin:** Build a Customer Management System (CMS) tab in the Admin panel where the admin can see all registered users, view their order history, and reply to their live chat messages in real-time.
+> 
+> 
+
+---
+
+### Tips for Success During Development
+
+* **Test as you go:** After the AI finishes a phase, run the code. Check the responsiveness and the color palette. If something breaks, paste the error code back into the AI and ask it to fix it *before* moving to the next phase.
+* **Database Setup:** You will need to create a free account at [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) to get your connection string. You will need to provide this string to your backend `.env` file when setting up Phase 2.
+* **Design Tweaks:** If the winter colors feel too dull at any point, ask the AI to "increase the contrast of the text against the `#ECEDE6` background for better accessibility."
+
+
+Here is the updated prompt for Phase 6, with the specific color code recommendations removed so the AI relies on the design system established in the Master Setup.
+
+Copy and paste this into your AI builder:
+
+---
+
+### Phase 6: Farm Operations & Inventory Management
+
+> **Execute Phase 6: Farm Operations & Internal Monitoring**
+> We need to build a secure, internal Farm Monitoring module to track livestock, daily production, expenses, and revenue. This entire section must be strictly protected by Role-Based Access Control (RBAC)—only users with the role of `admin` or `manager` can view or interact with these routes and UI components.
+> **1. Backend (Node/Express & MongoDB):**
+> * **Update Auth/Middleware:** Ensure the authentication middleware supports role-checking for both `admin` and `manager` roles to protect all Phase 6 routes.
+> * **Create Schemas & Routes:**
+> * `HenInventory`: Track total hen count. Include a history of additions and removals. Removals must require a `reason` (Enum: 'Death', 'Sell').
+> * `DailyProduction`: Track daily egg yield (Date, total eggs collected).
+> * `Expenses`: Track farm outgoings (Date, Amount, Category). Category must be a dropdown Enum: ('Water Bill', 'Light/Electricity Bill', 'Transport', 'Hen Food', 'Maintenance', 'Other'), plus a text field for specific reasons/details.
+> * `Revenue`: Track external sales/income (Date, Amount, Source/Details).
+> 
+> 
+> 
+> 
+> **2. Frontend (React):**
+> * **Operations Dashboard:** Build a new "Farm Operations" dashboard, accessible only to Admin/Manager roles. Ensure the layout aligns seamlessly with the established winter theme and design system.
+> * **Build Interactive Forms & Components:**
+> * **Hen Management Widget:** Display current total live hens. Include a form to "Add Batch" or "Remove Hens" (must include the dropdown for 'Death' or 'Sell').
+> * **Daily Production Widget:** A simple, quick-entry form to log the day's egg count.
+> * **Expense & Bill Tracker:** A form to log new bills. Use a clean, styled dropdown menu for the expense categories and a text area for the exact reason.
+> * **Revenue Entry:** A form to manually log offline/direct sales revenue with description fields.
+> 
+> 
+> 
+> 
+> **3. UI/UX Details:**
+> Ensure the forms are user-friendly with clear validation (e.g., cannot remove more hens than currently exist). Style the "Submit" and "Action" buttons using the primary action colors defined in our setup. Display a brief, read-only summary table below the forms showing the latest 5 entries for Production, Expenses, and Hen adjustments to confirm successful data entry.

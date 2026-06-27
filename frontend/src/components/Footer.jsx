@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Leaf, Mail, Phone, MapPin, Globe, MessageCircle, Share2 } from 'lucide-react';
+import { Mail, Phone, MapPin, Globe, MessageCircle, Share2 } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -8,10 +8,14 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           
           <div className="col-span-1 md:col-span-2 space-y-6">
-            <Link to="/" className="flex items-center gap-2">
-              <Leaf className="h-8 w-8 text-mountain-gold" />
+            <Link to="/" className="flex items-center gap-3">
+              <img
+                src="/logo.png"
+                alt="Wimalasooriya Farms"
+                className="h-16 w-16 object-contain drop-shadow-md"
+              />
               <span className="font-bold text-3xl tracking-tight">
-                Wimalasooriya <span className="text-mountain-gray font-light">Farm</span>
+                Wimalasooriya <span className="text-mountain-gray font-light">Farms</span>
               </span>
             </Link>
             <p className="text-mountain-gray max-w-sm text-lg leading-relaxed">

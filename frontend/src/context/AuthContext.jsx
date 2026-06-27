@@ -8,16 +8,13 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Set default axios config
   axios.defaults.baseURL = 'http://localhost:5000';
 
   useEffect(() => {
-    // Check if user is stored in localStorage
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
       setUser(parsedUser);
-      // Set auth header for future requests
       axios.defaults.headers.common['Authorization'] = `Bearer ${parsedUser.token}`;
     }
     setLoading(false);
@@ -62,8 +59,17 @@ export const AuthProvider = ({ children }) => {
     toast.success('Logged out successfully');
   };
 
+  // Update the user state and localStorage after profile/avatar changes
+  const updateUserInContext = (updates) => {
+    setUser(prev => {
+      const updated = { ...prev, ...updates };
+      localStorage.setItem('user', JSON.stringify(updated));
+      return updated;
+    });
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, register, logout, loading }}>
+    <AuthContext.Provider value={{ user, login, register, logout, loading, updateUserInContext }}>
       {!loading && children}
     </AuthContext.Provider>
   );

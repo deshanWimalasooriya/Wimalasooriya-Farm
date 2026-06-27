@@ -1,85 +1,159 @@
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import { motion } from 'framer-motion';
+
+const contactCards = [
+  {
+    icon: MapPin,
+    title: 'Visit Us',
+    lines: ['123 Farm Road,', 'Wimalasooriya, Sri Lanka'],
+  },
+  {
+    icon: Phone,
+    title: 'Call Us',
+    lines: ['+94 77 123 4567', 'Mon–Sat, 7am to 5pm'],
+  },
+  {
+    icon: Mail,
+    title: 'Email Us',
+    lines: ['hello@wimalasooriyafarms.com', 'orders@wimalasooriyafarms.com'],
+  },
+];
 
 const Contact = () => {
   return (
-    <div className="w-full bg-mountain-sand min-h-[calc(100vh-80px)]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold text-mountain-brown mb-6 animate-slide-up opacity-0">Get in Touch</h1>
-          <p className="text-xl text-mountain-gray animate-slide-up opacity-0" style={{ animationDelay: '0.2s' }}>
-            Whether you want to place a bulk order or just say hello, we'd love to hear from you.
-          </p>
-        </div>
+    /* ── Page wrapper with subtle linen-weave texture ── */
+    <div
+      className="min-h-[calc(100vh-80px)] flex items-center justify-center py-10 px-4 sm:px-6 lg:px-8 relative overflow-hidden"
+      style={{
+        backgroundColor: '#F8F3EA',
+        backgroundImage: `
+          repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 27px,
+            rgba(147,99,31,0.07) 27px,
+            rgba(147,99,31,0.07) 28px
+          ),
+          repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 27px,
+            rgba(147,99,31,0.07) 27px,
+            rgba(147,99,31,0.07) 28px
+          )
+        `,
+      }}
+    >
+      {/* Ambient glows */}
+      <div className="absolute -top-20 -right-20 w-72 h-72 bg-mountain-gold/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-20 -left-20 w-72 h-72 bg-mountain-moss/10 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="grid md:grid-cols-3 gap-12 lg:gap-8 max-w-6xl mx-auto">
-          {/* Contact Info */}
-          <div className="md:col-span-1 space-y-8 animate-fade-in opacity-0" style={{ animationDelay: '0.3s' }}>
-            <div className="bg-white p-6 rounded-2xl border border-mountain-gray/20 shadow-sm transition-transform hover:-translate-y-1 duration-300">
-              <div className="w-12 h-12 bg-mountain-gold/20 text-mountain-moss rounded-xl flex items-center justify-center mb-4">
-                <MapPin className="w-6 h-6" />
-              </div>
-              <h3 className="text-lg font-semibold text-mountain-brown mb-2">Visit Us</h3>
-              <p className="text-mountain-gray">123 Snowy Mountain Road,<br />Frost Valley, FV 10020</p>
-            </div>
-            
-            <div className="bg-white p-6 rounded-2xl border border-mountain-gray/20 shadow-sm transition-transform hover:-translate-y-1 duration-300">
-              <div className="w-12 h-12 bg-mountain-gold/20 text-mountain-moss rounded-xl flex items-center justify-center mb-4">
-                <Phone className="w-6 h-6" />
-              </div>
-              <h3 className="text-lg font-semibold text-mountain-brown mb-2">Call Us</h3>
-              <p className="text-mountain-gray">+1 (555) 123-4567<br />Mon-Fri from 8am to 5pm</p>
-            </div>
-            
-            <div className="bg-white p-6 rounded-2xl border border-mountain-gray/20 shadow-sm transition-transform hover:-translate-y-1 duration-300">
-              <div className="w-12 h-12 bg-mountain-gold/20 text-mountain-moss rounded-xl flex items-center justify-center mb-4">
-                <Mail className="w-6 h-6" />
-              </div>
-              <h3 className="text-lg font-semibold text-mountain-brown mb-2">Email Us</h3>
-              <p className="text-mountain-gray">hello@wimalasooriyafarm.com<br />orders@wimalasooriyafarm.com</p>
-            </div>
-          </div>
+      <div className="relative z-10 w-full max-w-5xl">
+        {/* Page header */}
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+          className="text-center mb-8"
+        >
+          <p className="text-mountain-gold text-xs font-bold uppercase tracking-widest mb-2">We'd love to hear from you</p>
+          <h1 className="text-3xl md:text-4xl font-bold text-mountain-brown">Get in Touch</h1>
+        </motion.div>
 
-          {/* Contact Form */}
-          <div className="md:col-span-2">
-            <div className="bg-white p-8 lg:p-10 rounded-3xl border border-mountain-gray/20 shadow-xl animate-slide-up opacity-0" style={{ animationDelay: '0.4s' }}>
-              <h2 className="text-2xl font-bold text-mountain-brown mb-8">Send us a message</h2>
-              <form className="space-y-6">
-                <div className="grid sm:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-mountain-brown">First Name</label>
-                    <input type="text" className="w-full px-4 py-3 rounded-xl border border-mountain-gray/30 focus:border-mountain-moss focus:ring-2 focus:ring-mountain-moss/20 transition-all outline-none bg-mountain-sand/50" placeholder="John" />
+        <div className="grid md:grid-cols-3 gap-6">
+
+          {/* ── Contact info cards ── */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="md:col-span-1 flex flex-col gap-4"
+          >
+            {contactCards.map(({ icon: Icon, title, lines }) => (
+              <div
+                key={title}
+                className="bg-white/80 backdrop-blur-sm p-5 rounded-2xl border border-mountain-gray/20 shadow-sm hover:-translate-y-1 transition-transform duration-300 flex items-start gap-4"
+              >
+                <div className="w-10 h-10 bg-mountain-gold/15 text-mountain-gold rounded-xl flex items-center justify-center flex-shrink-0">
+                  <Icon className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-mountain-brown text-sm mb-0.5">{title}</h3>
+                  {lines.map((l) => (
+                    <p key={l} className="text-mountain-gray text-xs leading-relaxed">{l}</p>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </motion.div>
+
+          {/* ── Contact form ── */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="md:col-span-2"
+          >
+            <div className="bg-white/90 backdrop-blur-sm p-7 rounded-2xl border border-mountain-gray/15 shadow-xl">
+              <h2 className="text-xl font-bold text-mountain-brown mb-5">Send us a Message</h2>
+              <form className="space-y-4">
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-semibold text-mountain-brown mb-1.5 uppercase tracking-wide">First Name</label>
+                    <input
+                      type="text"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-mountain-gray/30 focus:border-mountain-gold focus:ring-2 focus:ring-mountain-gold/20 outline-none bg-mountain-sand/10 text-sm transition-all"
+                      placeholder="Kasun"
+                    />
                   </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-mountain-brown">Last Name</label>
-                    <input type="text" className="w-full px-4 py-3 rounded-xl border border-mountain-gray/30 focus:border-mountain-moss focus:ring-2 focus:ring-mountain-moss/20 transition-all outline-none bg-mountain-sand/50" placeholder="Doe" />
+                  <div>
+                    <label className="block text-xs font-semibold text-mountain-brown mb-1.5 uppercase tracking-wide">Last Name</label>
+                    <input
+                      type="text"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-mountain-gray/30 focus:border-mountain-gold focus:ring-2 focus:ring-mountain-gold/20 outline-none bg-mountain-sand/10 text-sm transition-all"
+                      placeholder="Perera"
+                    />
                   </div>
                 </div>
-                
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-mountain-brown">Email Address</label>
-                  <input type="email" className="w-full px-4 py-3 rounded-xl border border-mountain-gray/30 focus:border-mountain-moss focus:ring-2 focus:ring-mountain-moss/20 transition-all outline-none bg-mountain-sand/50" placeholder="john@example.com" />
+
+                <div>
+                  <label className="block text-xs font-semibold text-mountain-brown mb-1.5 uppercase tracking-wide">Email Address</label>
+                  <input
+                    type="email"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-mountain-gray/30 focus:border-mountain-gold focus:ring-2 focus:ring-mountain-gold/20 outline-none bg-mountain-sand/10 text-sm transition-all"
+                    placeholder="kasun@example.com"
+                  />
                 </div>
-                
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-mountain-brown">Subject</label>
-                  <select className="w-full px-4 py-3 rounded-xl border border-mountain-gray/30 focus:border-mountain-moss focus:ring-2 focus:ring-mountain-moss/20 transition-all outline-none bg-mountain-sand/50 text-mountain-brown">
+
+                <div>
+                  <label className="block text-xs font-semibold text-mountain-brown mb-1.5 uppercase tracking-wide">Subject</label>
+                  <select className="w-full px-3.5 py-2.5 rounded-xl border border-mountain-gray/30 focus:border-mountain-gold focus:ring-2 focus:ring-mountain-gold/20 outline-none bg-mountain-sand/10 text-mountain-brown text-sm transition-all">
                     <option>General Inquiry</option>
                     <option>Retail Order</option>
-                    <option>Bulk/Wholesale Order</option>
+                    <option>Bulk / Wholesale Order</option>
                   </select>
                 </div>
-                
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-mountain-brown">Message</label>
-                  <textarea rows="5" className="w-full px-4 py-3 rounded-xl border border-mountain-gray/30 focus:border-mountain-moss focus:ring-2 focus:ring-mountain-moss/20 transition-all outline-none bg-mountain-sand/50 resize-none" placeholder="How can we help you?"></textarea>
+
+                <div>
+                  <label className="block text-xs font-semibold text-mountain-brown mb-1.5 uppercase tracking-wide">Message</label>
+                  <textarea
+                    rows="4"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-mountain-gray/30 focus:border-mountain-gold focus:ring-2 focus:ring-mountain-gold/20 outline-none bg-mountain-sand/10 text-sm resize-none transition-all"
+                    placeholder="How can we help you?"
+                  />
                 </div>
-                
-                <button type="button" className="w-full py-4 bg-mountain-moss text-white rounded-xl font-bold text-lg hover:bg-mountain-brown transition-all duration-300 shadow-lg shadow-mountain-moss/30 hover:shadow-mountain-brown/30 flex items-center justify-center gap-2">
-                  Send Message <Send className="w-5 h-5" />
-                </button>
+
+                <motion.button
+                  whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.98 }}
+                  type="button"
+                  className="w-full py-3 bg-mountain-moss text-white rounded-xl font-bold text-sm hover:bg-mountain-brown transition-all duration-300 shadow-lg shadow-mountain-moss/25 flex items-center justify-center gap-2"
+                >
+                  Send Message <Send className="w-4 h-4" />
+                </motion.button>
               </form>
             </div>
-          </div>
+          </motion.div>
+
         </div>
       </div>
     </div>

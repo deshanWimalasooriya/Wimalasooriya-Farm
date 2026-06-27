@@ -43,7 +43,7 @@ const adminOrManager = (req, res, next) => {
   if (req.user && (req.user.isAdmin || req.user.isManager)) {
     next();
   } else {
-    res.status(401).json({ message: 'Not authorized as an admin or manager' });
+    res.status(403).json({ message: 'Forbidden - Not authorized as an admin or manager' });
   }
 };
 

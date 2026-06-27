@@ -1,34 +1,88 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 @theme {
+  /* ── Winter Palette ── */
+  --color-winter-bg:       #F0F4F8;
+  --color-winter-surface:  #FFFFFF;
+  --color-winter-border:   #DDE3EC;
+  --color-winter-navy:     #1A2B4A;
+  --color-winter-steel:    #3D5A80;
+  --color-winter-ice:      #E8F1FA;
+  --color-winter-frost:    #C8DCF0;
+  --color-winter-sky:      #6FA3CC;
+  --color-winter-slate:    #64748B;
+  --color-winter-muted:    #94A3B8;
+
+  /* ── Legacy Farm Palette (preserve existing pages) ── */
   --color-mountain-brown: #372E19;
-  --color-mountain-gray: #B4B4B4;
-  --color-mountain-sand: #F4C579;
-  --color-mountain-gold: #93631F;
-  --color-mountain-moss: #3F4321;
+  --color-mountain-gray:  #B4B4B4;
+  --color-mountain-sand:  #F4C579;
+  --color-mountain-gold:  #93631F;
+  --color-mountain-moss:  #3F4321;
 
-  --font-sans: "Inter", sans-serif;
+  /* ── Accent ── */
+  --color-accent-primary:  #4A90D9;
+  --color-accent-success:  #22C55E;
+  --color-accent-warning:  #F59E0B;
+  --color-accent-danger:   #EF4444;
 
-  --animate-fade-in: fadeIn 0.5s ease-out forwards;
-  --animate-slide-up: slideUp 0.6s ease-out forwards;
-  --animate-float: float 3s ease-in-out infinite;
+  /* ── Typography ── */
+  --font-sans: "Inter", system-ui, sans-serif;
+
+  /* ── Shadows ── */
+  --shadow-widget: 0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.06);
+  --shadow-card:   0 4px 24px -4px rgb(26 43 74 / 0.10), 0 1px 3px -1px rgb(26 43 74 / 0.06);
+  --shadow-popup:  0 20px 60px -12px rgb(26 43 74 / 0.22);
+
+  /* ── Animations ── */
+  --animate-fade-in:      fadeIn 0.45s ease-out forwards;
+  --animate-slide-up:     slideUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-slide-right:  slideRight 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-scale-in:     scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  --animate-float:        float 3s ease-in-out infinite;
+  --animate-pulse-soft:   pulseSoft 2s ease-in-out infinite;
+  --animate-shimmer:      shimmer 1.6s linear infinite;
+  --animate-row-enter:    rowEnter 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 
   @keyframes fadeIn {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
+    from { opacity: 0; }
+    to   { opacity: 1; }
   }
-
   @keyframes slideUp {
-    0% { opacity: 0; transform: translateY(20px); }
-    100% { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
-
+  @keyframes slideRight {
+    from { opacity: 0; transform: translateX(-20px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.9) translateY(-8px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+  }
   @keyframes float {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+    50%       { transform: translateY(-8px); }
+  }
+  @keyframes pulseSoft {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.55; }
+  }
+  @keyframes shimmer {
+    from { background-position: -200% 0; }
+    to   { background-position: 200% 0; }
+  }
+  @keyframes rowEnter {
+    from { opacity: 0; transform: translateX(-12px) scale(0.97); background-color: rgb(74 144 217 / 0.12); }
+    to   { opacity: 1; transform: translateX(0) scale(1); background-color: transparent; }
   }
 }
+
+/* ─────────────────────────────────────────
+   Base Styles
+───────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
 
 body {
   background-color: var(--color-mountain-sand);
@@ -37,3 +91,421 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* ─────────────────────────────────────────
+   Winter Dashboard Surface
+───────────────────────────────────────── */
+.farm-dashboard {
+  background: var(--color-winter-bg);
+  min-height: 100vh;
+}
+
+/* ─────────────────────────────────────────
+   Skeleton / Shimmer Loader
+───────────────────────────────────────── */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-winter-border) 25%,
+    var(--color-winter-frost) 50%,
+    var(--color-winter-border) 75%
+  );
+  background-size: 200% 100%;
+  animation: var(--animate-shimmer);
+  border-radius: 0.5rem;
+}
+
+/* ─────────────────────────────────────────
+   Glassmorphism Card
+───────────────────────────────────────── */
+.glass-card {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: var(--shadow-card);
+}
+
+/* ─────────────────────────────────────────
+   Widget Card
+───────────────────────────────────────── */
+.widget-card {
+  background: var(--color-winter-surface);
+  border: 1px solid var(--color-winter-border);
+  border-radius: 1rem;
+  box-shadow: var(--shadow-widget);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.widget-card:hover {
+  box-shadow: var(--shadow-card);
+  transform: translateY(-2px);
+}
+
+/* ─────────────────────────────────────────
+   Winter Input Field
+───────────────────────────────────────── */
+.winter-input {
+  width: 100%;
+  padding: 0.65rem 1rem;
+  background: var(--color-winter-ice);
+  border: 1.5px solid var(--color-winter-border);
+  border-radius: 0.6rem;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  color: var(--color-winter-navy);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  outline: none;
+}
+.winter-input:focus {
+  border-color: var(--color-accent-primary);
+  background: var(--color-winter-surface);
+  box-shadow: 0 0 0 3px rgb(74 144 217 / 0.15);
+}
+.winter-input::placeholder {
+  color: var(--color-winter-muted);
+}
+
+/* ─────────────────────────────────────────
+   Winter Select
+───────────────────────────────────────── */
+.winter-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%2364748B' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.65rem center;
+  background-size: 1.1rem;
+  padding-right: 2.25rem;
+}
+
+/* ─────────────────────────────────────────
+   Buttons
+───────────────────────────────────────── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.65rem 1.4rem;
+  background: var(--color-accent-primary);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.875rem;
+  border-radius: 0.6rem;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 8px rgb(74 144 217 / 0.35);
+}
+.btn-primary:hover  { background: #3a7fc9; transform: translateY(-1px); box-shadow: 0 4px 16px rgb(74 144 217 / 0.45); }
+.btn-primary:active { transform: translateY(0); box-shadow: 0 2px 8px rgb(74 144 217 / 0.35); }
+
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.65rem 1.4rem;
+  background: var(--color-accent-danger);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.875rem;
+  border-radius: 0.6rem;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 8px rgb(239 68 68 / 0.3);
+}
+.btn-danger:hover  { background: #dc2626; transform: translateY(-1px); box-shadow: 0 4px 16px rgb(239 68 68 / 0.4); }
+.btn-danger:active { transform: translateY(0); }
+
+.btn-success {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.65rem 1.4rem;
+  background: var(--color-accent-success);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.875rem;
+  border-radius: 0.6rem;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 8px rgb(34 197 94 / 0.3);
+}
+.btn-success:hover  { background: #16a34a; transform: translateY(-1px); box-shadow: 0 4px 16px rgb(34 197 94 / 0.4); }
+.btn-success:active { transform: translateY(0); }
+
+/* ─────────────────────────────────────────
+   Activity Row Animation
+───────────────────────────────────────── */
+.activity-row-new {
+  animation: var(--animate-row-enter);
+}
+
+/* ─────────────────────────────────────────
+   Nav Sidebar Item
+───────────────────────────────────────── */
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  width: 100%;
+  padding: 0.6rem 0.85rem;
+  border-radius: 0.6rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-winter-slate);
+  background: transparent;
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+.sidebar-item:hover {
+  background: var(--color-winter-ice);
+  color: var(--color-winter-navy);
+  border-color: var(--color-winter-frost);
+}
+.sidebar-item.active {
+  background: var(--color-winter-ice);
+  color: var(--color-accent-primary);
+  border-color: var(--color-accent-primary);
+  font-weight: 600;
+}
+
+/* ─────────────────────────────────────────
+   Profile Dropdown
+───────────────────────────────────────── */
+.profile-dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 10px);
+  min-width: 220px;
+  background: var(--color-winter-surface);
+  border: 1px solid var(--color-winter-border);
+  border-radius: 0.85rem;
+  box-shadow: var(--shadow-popup);
+  overflow: hidden;
+  transform-origin: top right;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.6rem 1rem;
+  font-size: 0.875rem;
+  color: var(--color-winter-navy);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  text-decoration: none;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.dropdown-item:hover { background: var(--color-winter-ice); color: var(--color-accent-primary); }
+.dropdown-item.danger:hover { background: #FEF2F2; color: var(--color-accent-danger); }
+
+/* ─────────────────────────────────────────
+   Stat Badge
+───────────────────────────────────────── */
+.stat-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.65rem;
+  border-radius: 9999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+/* ─────────────────────────────────────────
+   Scrollbar (thin & minimal)
+───────────────────────────────────────── */
+::-webkit-scrollbar       { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--color-winter-ice); }
+::-webkit-scrollbar-thumb { background: var(--color-winter-frost); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-winter-sky); }
+
+/* ─────────────────────────────────────────
+   Global Background — Farm Scene
+   Applied on public pages that want the
+   background image without extra wrappers.
+───────────────────────────────────────── */
+.bg-farm-scene {
+  background-image: url('/farm-bg.png');
+  background-size: cover;
+  background-position: center top;
+  background-attachment: fixed;
+  position: relative;
+}
+
+/* Winter overlay (cool, professional) */
+.bg-farm-scene::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    160deg,
+    rgba(240, 244, 248, 0.82) 0%,
+    rgba(200, 220, 240, 0.65) 50%,
+    rgba(111, 163, 204, 0.40) 100%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Warm earthy overlay (matches mountain palette) */
+.bg-farm-warm::before {
+  background: linear-gradient(
+    135deg,
+    rgba(55, 46, 25, 0.72) 0%,
+    rgba(63, 67, 33, 0.55) 55%,
+    rgba(244, 197, 121, 0.22) 100%
+  );
+}
+
+/* Everything inside must sit above the overlay */
+.bg-farm-scene > * { position: relative; z-index: 1; }
+
+/* ─────────────────────────────────────────
+   Text Contrast Guardrails
+   Use these on sections that sit over a
+   dark overlay to guarantee readability.
+───────────────────────────────────────── */
+/* Over dark overlay */
+.text-on-dark        { color: #FFFFFF; }
+.text-on-dark-muted  { color: rgba(255, 255, 255, 0.70); }
+.text-on-dark-subtle { color: rgba(255, 255, 255, 0.45); }
+
+/* Over light overlay */
+.text-on-light        { color: var(--color-winter-navy); }
+.text-on-light-muted  { color: var(--color-winter-slate); }
+.text-on-light-subtle { color: var(--color-winter-muted); }
+
+/* Glass surface for content cards sitting over imagery */
+.glass-surface {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 1rem;
+  box-shadow: 0 8px 32px -8px rgba(26, 43, 74, 0.14);
+}
+
+/* Darker glass for overlaying warm/brown backgrounds */
+.glass-surface-dark {
+  background: rgba(55, 46, 25, 0.82);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid rgba(244, 197, 121, 0.25);
+  border-radius: 1rem;
+  box-shadow: 0 8px 32px -8px rgba(0, 0, 0, 0.30);
+}
+
+/* ─────────────────────────────────────────
+   Page Transition — keyframes
+   Used by PageTransition.jsx (framer-motion
+   handles the actual JS animation; these
+   are fallback CSS-only transitions).
+───────────────────────────────────────── */
+@keyframes pageEnter {
+  from { opacity: 0; transform: translateY(18px) scale(0.995); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);     }
+}
+@keyframes pageExit {
+  from { opacity: 1; transform: translateY(0)    scale(1);     }
+  to   { opacity: 0; transform: translateY(-10px) scale(0.997); }
+}
+
+.page-enter {
+  animation: pageEnter 0.42s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.page-exit {
+  animation: pageExit 0.22s ease-in forwards;
+}
+
+/* ─────────────────────────────────────────
+   Skeleton — warm variant
+   Use `.skeleton-warm` on farm/earthy
+   pages where the default winter-blue
+   shimmer looks out of place.
+───────────────────────────────────────── */
+@keyframes shimmerWarm {
+  from { background-position: -200% 0; }
+  to   { background-position:  200% 0; }
+}
+
+.skeleton-warm {
+  background: linear-gradient(
+    90deg,
+    rgba(244, 197, 121, 0.25) 25%,
+    rgba(244, 197, 121, 0.55) 50%,
+    rgba(244, 197, 121, 0.25) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmerWarm 1.8s linear infinite;
+  border-radius: 0.5rem;
+}
+
+/* ─────────────────────────────────────────
+   Spinning loader utility
+   Drop `class="btn-spinner"` inside any
+   button to show an inline loading ring.
+───────────────────────────────────────── */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.btn-spinner {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #ffffff;
+  border-radius: 9999px;
+  animation: spin 0.65s linear infinite;
+  flex-shrink: 0;
+}
+
+/* Dark variant for light-coloured buttons */
+.btn-spinner-dark {
+  border-color: rgba(55, 46, 25, 0.25);
+  border-top-color: var(--color-mountain-brown);
+}
+
+/* ─────────────────────────────────────────
+   Dashboard layout guardrail
+   Ensures the operational dashboard always
+   occupies 100% of the viewport height and
+   the scrollable area is the main content.
+───────────────────────────────────────── */
+.dashboard-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100%;          /* fill the flex-1 main slot */
+  overflow: hidden;
+}
+
+.dashboard-body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Admin Dashboard Egg-Shell Texture */
+.bg-egg-shell {
+  background-color: #FDFCF8;
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+}
+
+@media print {
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  @page {
+    margin: 0;
+  }
+}
+

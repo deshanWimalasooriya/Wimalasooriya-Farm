@@ -4,15 +4,17 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const http = require('http');
 const { Server } = require('socket.io');
+
+dotenv.config();
+
 const authRoutes = require('./routes/authRoutes');
 const productRoutes = require('./routes/productRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const chatRoutes = require('./routes/chatRoutes');
 const farmRoutes = require('./routes/farmRoutes');
-
-dotenv.config();
-
+const workerRoutes = require('./routes/workerRoutes');
+const transportRoutes = require('./routes/transportRoutes');
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
@@ -33,6 +35,8 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/farm', farmRoutes);
+app.use('/api/admin/workers', workerRoutes);
+app.use('/api/admin/transport', transportRoutes);
 
 // Socket.io integration
 io.on('connection', (socket) => {

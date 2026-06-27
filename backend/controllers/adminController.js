@@ -1,6 +1,7 @@
 const Order = require('../models/Order');
 const Product = require('../models/Product');
 const User = require('../models/User');
+const { HenInventory, DailyProduction, Expenses, Revenue } = require('../models/FarmOperations');
 
 // @desc    Get aggregate analytics for dashboard
 // @route   GET /api/admin/analytics
@@ -35,6 +36,94 @@ const getAnalytics = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// @desc    Get Advanced Analytics
+// @route   GET /api/admin/advanced-analytics
+// @access  Private/Admin
+const getAdvancedAnalytics = async (req, res) => {
+  try {
+    const { filter } = req.query; // '7days', 'thisMonth', 'thisYear'
+    let startDate = new Date();
+    
+    if (filter === '7days') {
+      startDate.setDate(startDate.getDate() - 7);
+    } else if (filter === 'thisMonth') {
+      startDate = new Date(startDate.getFullYear(), startDate.getMonth(), 1);
+    } else if (filter === 'thisYear') {
+      startDate = new Date(startDate.getFullYear(), 0, 1);
+    } else {
+      // default 30 days
+      startDate.setDate(startDate.getDate() - 30);
+    }
+
+    const dateQuery = { $gte: startDate };
+    const orderDateQuery = { createdAt: { $gte: startDate } };
+    
+    const orders = await Order.find(orderDateQuery);
+    const offlineRevenues = await Revenue.find({ date: dateQuery });
+    const expenses = await Expenses.find({ date: dateQuery });
+    const production = await DailyProduction.find({ date: dateQuery }).sort({ date: 1 });
+    
+    const inventory = await HenInventory.findOne();
+    const currentHenCount = inventory ? inventory.totalHenCount : 0;
+    
+    const totalShopSales = orders.reduce((acc, order) => acc + order.totalPrice, 0);
+    const totalOfflineSales = offlineRevenues.reduce((acc, rev) => acc + rev.amount, 0);
+    const totalRevenue = totalShopSales + totalOfflineSales;
+    const totalExpenses = expenses.reduce((acc, exp) => acc + exp.amount, 0);
+    const netProfit = totalRevenue - totalExpenses;
+    const totalEggs = production.reduce((acc, prod) => acc + prod.totalEggsCollected, 0);
+    
+    const timeGroupMap = {};
+    const addToGroup = (dateObj, key, amount) => {
+      let dateKey = filter === 'thisYear' 
+        ? dateObj.toISOString().substring(0, 7) 
+        : dateObj.toISOString().substring(0, 10);
+      
+      if (!timeGroupMap[dateKey]) {
+        timeGroupMap[dateKey] = { date: dateKey, shopSales: 0, offlineSales: 0, expenses: 0, eggs: 0 };
+      }
+      timeGroupMap[dateKey][key] += amount;
+    };
+    
+    orders.forEach(o => addToGroup(o.createdAt, 'shopSales', o.totalPrice));
+    offlineRevenues.forEach(r => addToGroup(r.date, 'offlineSales', r.amount));
+    expenses.forEach(e => addToGroup(e.date, 'expenses', e.amount));
+    production.forEach(p => addToGroup(p.date, 'eggs', p.totalEggsCollected));
+    
+    const revenueExpensesChart = Object.values(timeGroupMap).sort((a,b) => a.date.localeCompare(b.date));
+    
+    const productionChart = revenueExpensesChart.map(item => ({
+       date: item.date,
+       eggs: item.eggs,
+       liveHens: currentHenCount
+    }));
+    
+    const daysCount = Object.keys(timeGroupMap).length || 1;
+    const avgDailyEggs = totalEggs / daysCount;
+    const layingRate = currentHenCount > 0 ? ((avgDailyEggs / currentHenCount) * 100).toFixed(1) : 0;
+    
+    const expenseGroups = {};
+    expenses.forEach(e => {
+      const cat = e.category || 'Other';
+      expenseGroups[cat] = (expenseGroups[cat] || 0) + e.amount;
+    });
+    const expenseChart = Object.keys(expenseGroups).map(key => ({
+      name: key,
+      value: expenseGroups[key]
+    }));
+    
+    res.json({
+      kpis: { totalRevenue, totalExpenses, netProfit, totalEggs, currentHenCount, layingRate },
+      revenueExpensesChart,
+      productionChart,
+      expenseChart
+    });
+  } catch (error) {
+    console.error('Advanced Analytics Error:', error);
+    res.status(500).json({ message: 'Server error computing analytics' });
   }
 };
 
@@ -86,6 +175,7 @@ const getAllUsers = async (req, res) => {
 
 module.exports = {
   getAnalytics,
+  getAdvancedAnalytics,
   getAllOrders,
   updateProduct,
   getAllUsers

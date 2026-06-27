@@ -1,37 +1,40 @@
 const mongoose = require('mongoose');
 
-const henLogSchema = new mongoose.Schema({
-  type: { type: String, enum: ['Add', 'Remove'], required: true },
-  quantity: { type: Number, required: true },
-  reason: { type: String, enum: ['Death', 'Sell', null], default: null },
-  date: { type: Date, default: Date.now }
+const henInventorySchema = new mongoose.Schema({
+  totalHenCount: { type: Number, default: 0, required: true },
+  history: [{
+    date: { type: Date, default: Date.now },
+    quantityChange: { type: Number, required: true },
+    type: { type: String, enum: ['addition', 'removal'], required: true },
+    reason: { type: String, enum: ['Death', 'Sell'], default: null }
+  }]
 });
 
 const dailyProductionSchema = new mongoose.Schema({
-  eggsCollected: { type: Number, required: true },
-  date: { type: Date, default: Date.now }
+  date: { type: Date, default: Date.now },
+  totalEggsCollected: { type: Number, required: true }
 });
 
 const expenseSchema = new mongoose.Schema({
+  date: { type: Date, default: Date.now },
   amount: { type: Number, required: true },
   category: { 
     type: String, 
     enum: ['Water Bill', 'Light/Electricity Bill', 'Transport', 'Hen Food', 'Maintenance', 'Other'],
     required: true 
   },
-  reason: { type: String },
-  date: { type: Date, default: Date.now }
+  details: { type: String, required: true }
 });
 
 const revenueSchema = new mongoose.Schema({
+  date: { type: Date, default: Date.now },
   amount: { type: Number, required: true },
-  source: { type: String, required: true },
-  date: { type: Date, default: Date.now }
+  sourceDescription: { type: String, required: true }
 });
 
-const HenLog = mongoose.model('HenLog', henLogSchema);
+const HenInventory = mongoose.model('HenInventory', henInventorySchema);
 const DailyProduction = mongoose.model('DailyProduction', dailyProductionSchema);
-const Expense = mongoose.model('Expense', expenseSchema);
+const Expenses = mongoose.model('Expenses', expenseSchema);
 const Revenue = mongoose.model('Revenue', revenueSchema);
 
-module.exports = { HenLog, DailyProduction, Expense, Revenue };
+module.exports = { HenInventory, DailyProduction, Expenses, Revenue };

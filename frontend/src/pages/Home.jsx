@@ -35,7 +35,7 @@ const stats = [
 
 const Home = () => {
   return (
-    <div className="w-full">
+    <div className="w-full" style={{ backgroundColor: '#EBEBEB' }}>
 
       {/* ── Hero Section ─────────────────────────────────────────────────── */}
       <section className="relative min-h-[92vh] flex items-center overflow-hidden">
@@ -46,35 +46,29 @@ const Home = () => {
           style={{ backgroundImage: "url('/home-hero.png')" }}
         />
 
-        {/* Layered gradient overlay — dark bottom for text, warm gold at top */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/40 to-mountain-brown/80" />
-        {/* Horizontal warm-cool split */}
-        <div className="absolute inset-0 bg-gradient-to-r from-mountain-brown/50 via-transparent to-transparent" />
-
-        {/* Subtle animated glow orbs */}
-        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-mountain-gold/15 rounded-full blur-3xl animate-pulse pointer-events-none" />
-        <div className="absolute bottom-1/3 left-1/3 w-64 h-64 bg-mountain-moss/10 rounded-full blur-3xl animate-pulse pointer-events-none" style={{ animationDelay: '1s' }} />
+        {/* Subtle bottom gradient for text legibility only */}
+        <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 55%)' }} />
 
         {/* Content */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
           <div className="max-w-2xl">
 
             {/* Badge */}
-            <motion.div {...fadeUp(0)} className="inline-flex items-center gap-2 bg-mountain-gold/20 border border-mountain-gold/40 backdrop-blur-sm px-4 py-1.5 rounded-full mb-6">
-              <Star className="w-3.5 h-3.5 text-mountain-gold fill-mountain-gold" />
-              <span className="text-mountain-gold text-sm font-semibold tracking-wide">Sri Lanka's Premium Egg Farm</span>
+            <motion.div {...fadeUp(0)} className="inline-flex items-center gap-2 backdrop-blur-sm px-4 py-1.5 rounded-full mb-6 border" style={{ backgroundColor: 'rgba(221,186,155,0.20)', borderColor: 'rgba(221,186,155,0.40)' }}>
+              <Star className="w-3.5 h-3.5" style={{ color: '#DDBA9B', fill: '#DDBA9B' }} />
+              <span className="text-sm font-semibold tracking-wide" style={{ color: '#DDBA9B' }}>Sri Lanka's Premium Egg Farm</span>
             </motion.div>
 
             {/* Headline */}
             <motion.h1 {...fadeUp(0.1)} className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.08] tracking-tight mb-6">
               Freshness from the{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-mountain-gold to-mountain-sand">
+              <span className="text-transparent bg-clip-text" style={{ backgroundImage: 'linear-gradient(to right, #DDBA9B, #D0D8DF)' }}>
                 Frosty Valleys
               </span>
             </motion.h1>
 
             {/* Sub-headline */}
-            <motion.p {...fadeUp(0.2)} className="text-lg md:text-xl text-white/75 mb-10 leading-relaxed max-w-xl">
+            <motion.p {...fadeUp(0.2)} className="text-lg md:text-xl mb-10 leading-relaxed max-w-xl" style={{ color: 'rgba(255,255,255,0.80)' }}>
               Premium quality eggs and farm products, raised with care in our pristine landscapes. Purity you can taste — delivered to your door.
             </motion.p>
 
@@ -82,14 +76,20 @@ const Home = () => {
             <motion.div {...fadeUp(0.3)} className="flex flex-col sm:flex-row gap-4">
               <Link
                 to="/bulk-orders"
-                className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-mountain-gold text-mountain-brown font-bold text-lg rounded-xl hover:bg-white transition-all duration-300 shadow-2xl shadow-mountain-gold/30 hover:-translate-y-1 transform"
+                className="group inline-flex items-center justify-center gap-2 px-8 py-4 font-bold text-lg rounded-xl transition-all duration-300 hover:-translate-y-1 transform shadow-2xl"
+                style={{ backgroundColor: '#52311B', color: '#ffffff', boxShadow: '0 25px 50px -12px rgba(82,49,27,0.35)' }}
+                onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#ffffff'; e.currentTarget.style.color = '#52311B'; }}
+                onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#52311B'; e.currentTarget.style.color = '#ffffff'; }}
               >
                 Order Now
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
               </Link>
               <Link
                 to="/about"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 text-white font-semibold text-lg rounded-xl border border-white/30 backdrop-blur-sm hover:bg-white/20 hover:border-white/50 transition-all duration-300 hover:-translate-y-1 transform"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 font-semibold text-lg rounded-xl border backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 transform"
+                style={{ backgroundColor: 'rgba(255,255,255,0.10)', color: '#ffffff', borderColor: 'rgba(255,255,255,0.30)' }}
+                onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.20)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.50)'; }}
+                onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.10)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.30)'; }}
               >
                 Our Story
               </Link>
@@ -107,31 +107,32 @@ const Home = () => {
             {stats.map(({ value, label }) => (
               <div
                 key={label}
-                className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl px-5 py-4 text-center"
+                className="backdrop-blur-sm rounded-2xl px-5 py-4 text-center border"
+                style={{ backgroundColor: 'rgba(255,255,255,0.10)', borderColor: 'rgba(255,255,255,0.20)' }}
               >
-                <p className="text-3xl font-bold text-mountain-gold">{value}</p>
-                <p className="text-sm text-white/70 mt-1">{label}</p>
+                <p className="text-3xl font-bold" style={{ color: '#DDBA9B' }}>{value}</p>
+                <p className="text-sm mt-1" style={{ color: 'rgba(255,255,255,0.70)' }}>{label}</p>
               </div>
             ))}
           </motion.div>
         </div>
 
         {/* Bottom fade into next section */}
-        <div className="absolute bottom-0 inset-x-0 h-24 bg-gradient-to-t from-white to-transparent pointer-events-none" />
+        <div className="absolute bottom-0 inset-x-0 h-24 pointer-events-none" style={{ background: 'linear-gradient(to top, #EBEBEB, transparent)' }} />
       </section>
 
       {/* ── Features Section ─────────────────────────────────────────────── */}
-      <section className="py-24 bg-white relative">
+      <section className="py-24 relative" style={{ backgroundColor: '#EBEBEB' }}>
         {/* Subtle background pattern */}
         <div
-          className="absolute inset-0 opacity-[0.03] pointer-events-none"
-          style={{ backgroundImage: 'radial-gradient(circle, #93631F 1px, transparent 1px)', backgroundSize: '32px 32px' }}
+          className="absolute inset-0 opacity-[0.04] pointer-events-none"
+          style={{ backgroundImage: 'radial-gradient(circle, #013547 1px, transparent 1px)', backgroundSize: '32px 32px' }}
         />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center mb-16">
-            <p className="text-mountain-gold font-semibold text-sm uppercase tracking-widest mb-3">Why Choose Us</p>
-            <h2 className="text-4xl font-bold text-mountain-brown mb-4">The Wimalasooriya Difference</h2>
-            <p className="text-mountain-gray max-w-2xl mx-auto text-lg">
+            <p className="font-semibold text-sm uppercase tracking-widest mb-3" style={{ color: '#DDBA9B' }}>Why Choose Us</p>
+            <h2 className="text-4xl font-bold mb-4" style={{ color: '#013547' }}>The Wimalasooriya Difference</h2>
+            <p className="max-w-2xl mx-auto text-lg" style={{ color: '#6C6F6E' }}>
               Our commitment to purity and quality ensures you get only the best for your family and business.
             </p>
           </div>
@@ -144,13 +145,25 @@ const Home = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-60px' }}
                 transition={{ duration: 0.5, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                className="group p-8 rounded-2xl bg-mountain-sand/30 border border-mountain-gray/20 hover:border-mountain-gold/40 hover:shadow-xl hover:shadow-mountain-gold/10 transition-all duration-300 hover:-translate-y-2 transform"
+                className="group p-8 rounded-2xl border transition-all duration-300 hover:-translate-y-2 transform"
+                style={{
+                  backgroundColor: '#D0D8DF',
+                  borderColor: 'rgba(108,111,110,0.20)',
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.borderColor = 'rgba(221,186,155,0.50)';
+                  e.currentTarget.style.boxShadow = '0 20px 40px -8px rgba(0,0,0,0.12)';
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.borderColor = 'rgba(108,111,110,0.20)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
               >
-                <div className="w-14 h-14 rounded-2xl bg-mountain-gold/15 flex items-center justify-center mb-6 group-hover:bg-mountain-gold/25 transition-colors duration-300">
-                  <Icon className="w-7 h-7 text-mountain-gold" />
+                <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 transition-colors duration-300" style={{ backgroundColor: 'rgba(221,186,155,0.25)' }}>
+                  <Icon className="w-7 h-7" style={{ color: '#013547' }} />
                 </div>
-                <h3 className="text-xl font-bold text-mountain-brown mb-3">{title}</h3>
-                <p className="text-mountain-gray leading-relaxed">{desc}</p>
+                <h3 className="text-xl font-bold mb-3" style={{ color: '#013547' }}>{title}</h3>
+                <p className="leading-relaxed" style={{ color: '#6C6F6E' }}>{desc}</p>
               </motion.div>
             ))}
           </div>
@@ -165,10 +178,10 @@ const Home = () => {
           className="absolute inset-0 bg-cover bg-center bg-fixed"
           style={{ backgroundImage: "url('/home-hero.png')" }}
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-mountain-brown/90 via-mountain-brown/80 to-mountain-moss/75" />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom right, rgba(0,0,0,0.85), rgba(0,0,0,0.75))' }} />
 
         {/* Glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-mountain-gold/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full blur-3xl pointer-events-none" style={{ backgroundColor: 'rgba(221,186,155,0.10)' }} />
 
         <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
           <motion.div
@@ -177,23 +190,29 @@ const Home = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
           >
-            <p className="text-mountain-gold text-sm font-semibold uppercase tracking-widest mb-4">Ready to get started?</p>
+            <p className="text-sm font-semibold uppercase tracking-widest mb-4" style={{ color: '#DDBA9B' }}>Ready to get started?</p>
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
               Experience the difference today
             </h2>
-            <p className="text-white/70 text-lg mb-10 max-w-xl mx-auto">
+            <p className="text-lg mb-10 max-w-xl mx-auto" style={{ color: 'rgba(255,255,255,0.70)' }}>
               Join hundreds of happy families and businesses who trust Wimalasooriya Farms for fresh, premium eggs every day.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 to="/contact"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-mountain-gold text-mountain-brown font-bold text-lg rounded-xl hover:bg-white transition-all duration-300 shadow-2xl shadow-black/20 hover:-translate-y-1 transform"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 font-bold text-lg rounded-xl transition-all duration-300 shadow-2xl hover:-translate-y-1 transform"
+                style={{ backgroundColor: '#52311B', color: '#ffffff', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)' }}
+                onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#ffffff'; e.currentTarget.style.color = '#52311B'; }}
+                onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#52311B'; e.currentTarget.style.color = '#ffffff'; }}
               >
                 Get in Touch <ArrowRight className="w-5 h-5" />
               </Link>
               <Link
                 to="/bulk-orders"
-                className="inline-flex items-center justify-center px-8 py-4 bg-white/10 text-white font-semibold text-lg rounded-xl border border-white/30 backdrop-blur-sm hover:bg-white/20 transition-all duration-300 hover:-translate-y-1 transform"
+                className="inline-flex items-center justify-center px-8 py-4 font-semibold text-lg rounded-xl border backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 transform"
+                style={{ backgroundColor: 'rgba(255,255,255,0.10)', color: '#ffffff', borderColor: 'rgba(255,255,255,0.30)' }}
+                onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.20)'; }}
+                onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.10)'; }}
               >
                 Bulk Orders
               </Link>

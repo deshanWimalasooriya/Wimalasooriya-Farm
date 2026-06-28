@@ -3,6 +3,7 @@ import { AnimatePresence } from 'framer-motion';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
+import { NotificationProvider } from './context/NotificationContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import CartDrawer from './components/CartDrawer';
@@ -130,11 +131,13 @@ const AppLayout = () => {
 function App() {
   return (
     <AuthProvider>
-      <CartProvider>
-        <Router>
-          <AppLayout />
-        </Router>
-      </CartProvider>
+      <NotificationProvider>
+        <CartProvider>
+          <Router>
+            <AppLayout />
+          </Router>
+        </CartProvider>
+      </NotificationProvider>
     </AuthProvider>
   );
 }

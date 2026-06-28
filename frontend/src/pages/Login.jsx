@@ -55,7 +55,10 @@ const Login = () => {
 
           <button 
             type="submit" 
-            className="w-full py-4 bg-mountain-moss text-white rounded-xl font-bold text-lg hover:bg-mountain-brown transition-all duration-300 shadow-lg shadow-mountain-moss/30 hover:shadow-mountain-brown/30 transform hover:-translate-y-0.5"
+            className="w-full py-4 rounded-xl font-bold text-lg transition-all duration-300 shadow-lg transform hover:-translate-y-0.5"
+            style={{ backgroundColor: '#52311B', color: '#ffffff', boxShadow: '0 8px 20px -4px rgba(82,49,27,0.30)' }}
+            onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#ffffff'; e.currentTarget.style.color = '#52311B'; }}
+            onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#52311B'; e.currentTarget.style.color = '#ffffff'; }}
           >
             Sign In
           </button>

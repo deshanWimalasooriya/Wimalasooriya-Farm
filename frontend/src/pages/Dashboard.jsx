@@ -20,6 +20,8 @@ const TABS = [
 // ── Helpers ───────────────────────────────────────────────────────────────────
 const STATUS_COLORS = {
   Pending:         'bg-yellow-100 text-yellow-700 border-yellow-200',
+  Approved:        'bg-green-100 text-green-700 border-green-200',
+  Rejected:        'bg-red-100 text-red-700 border-red-200',
   Processing:      'bg-blue-100 text-blue-700 border-blue-200',
   Shipped:         'bg-indigo-100 text-indigo-700 border-indigo-200',
   Delivered:       'bg-green-100 text-green-700 border-green-200',
@@ -159,7 +161,8 @@ const ProfileTab = ({ user, authConfig, onUpdate }) => {
           <Input label="Company Name (optional)" icon={Building2} value={form.companyName} onChange={e => setForm({ ...form, companyName: e.target.value })} placeholder="For B2B/Bulk buyers" />
           <div className="flex justify-end pt-2">
             <button type="submit" disabled={saving}
-              className="flex items-center gap-2 bg-[#1A2B4A] text-white px-6 py-2.5 rounded-xl font-semibold hover:bg-[#2D3F5E] transition-colors disabled:opacity-60 text-sm shadow-md">
+              className="flex items-center gap-2 text-white px-6 py-2.5 rounded-xl font-semibold transition-colors disabled:opacity-60 text-sm shadow-md"
+              style={{ backgroundColor: '#52311B' }}>
               {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
               {saving ? 'Saving...' : 'Save Changes'}
             </button>
@@ -183,7 +186,8 @@ const ProfileTab = ({ user, authConfig, onUpdate }) => {
           </div>
           <div className="flex justify-end pt-2">
             <button type="submit" disabled={pwSaving}
-              className="flex items-center gap-2 bg-[#4A90D9] text-white px-6 py-2.5 rounded-xl font-semibold hover:bg-[#3B7DC8] transition-colors disabled:opacity-60 text-sm shadow-md">
+              className="flex items-center gap-2 text-white px-6 py-2.5 rounded-xl font-semibold transition-colors disabled:opacity-60 text-sm shadow-md"
+              style={{ backgroundColor: '#52311B' }}>
               {pwSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Shield className="w-4 h-4" />}
               {pwSaving ? 'Updating...' : 'Update Password'}
             </button>
@@ -394,7 +398,8 @@ const AddressTab = ({ authConfig }) => {
                   </label>
                   <div className="flex gap-3 pt-2">
                     <button type="submit" disabled={saving}
-                      className="flex items-center gap-2 bg-[#1A2B4A] text-white px-5 py-2.5 rounded-xl font-semibold hover:bg-[#2D3F5E] transition-colors disabled:opacity-60 text-sm">
+                      className="flex items-center gap-2 text-white px-5 py-2.5 rounded-xl font-semibold transition-colors disabled:opacity-60 text-sm"
+                      style={{ backgroundColor: '#52311B' }}>
                       {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
                       {saving ? 'Saving...' : 'Save Address'}
                     </button>

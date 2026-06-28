@@ -4,18 +4,18 @@ const orderSchema = mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      required: true,
+      required: false, // Optional for guest bulk orders
       ref: 'User',
     },
     orderItems: [
       {
-        name: { type: String, required: true },
+        name: { type: String, required: false }, // Optional for bulk
         qty: { type: Number, required: true },
-        image: { type: String, required: true },
-        price: { type: Number, required: true },
+        image: { type: String, required: false }, // Optional for bulk
+        price: { type: Number, required: false }, // Optional for bulk
         product: {
           type: mongoose.Schema.Types.ObjectId,
-          required: true,
+          required: false, // Optional for bulk
           ref: 'Product',
         },
       },
@@ -28,12 +28,30 @@ const orderSchema = mongoose.Schema(
     status: {
       type: String,
       required: true,
-      default: 'Pending', // Pending, Processing, Shipped, Delivered, Quote_Requested
+      default: 'Pending', // Pending, Approved, Rejected, Processing, Shipped, Delivered, Quote_Requested
     },
     orderType: {
       type: String,
       required: true,
       default: 'Retail', // Retail, Bulk
+    },
+    companyName: {
+      type: String,
+    },
+    email: {
+      type: String,
+    },
+    phone: {
+      type: String,
+    },
+    quantity: {
+      type: Number,
+    },
+    adminMessage: {
+      type: String, // Reason for rejection or custom message from admin
+    },
+    userNotes: {
+      type: String, // Special instructions or notes from the user
     }
   },
   {

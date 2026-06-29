@@ -20,7 +20,7 @@ const ChatWidget = () => {
   useEffect(() => {
     if (isEligible) {
       // Connect to socket
-      socket = io('http://localhost:5000');
+      socket = io('http://localhost:5001');
       
       socket.emit('join_room', user._id);
 

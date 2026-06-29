@@ -8,7 +8,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  axios.defaults.baseURL = 'http://localhost:5000';
+  axios.defaults.baseURL = 'http://localhost:5001';
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');

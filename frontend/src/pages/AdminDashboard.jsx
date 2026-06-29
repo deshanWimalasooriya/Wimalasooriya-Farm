@@ -64,7 +64,7 @@ const AdminDashboard = () => {
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
-    socketRef.current = io('http://localhost:5000');
+    socketRef.current = io('http://localhost:5001');
     socketRef.current.emit('join_room', 'admin_room');
     socketRef.current.on('receive_message', (message) => {
       setChatMessages((prev) => [...prev, message]);

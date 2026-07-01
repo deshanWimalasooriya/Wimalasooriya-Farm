@@ -1,193 +1,230 @@
 import { motion } from 'framer-motion';
-import { Users, Target, ShieldCheck, Egg, Leaf, Award } from 'lucide-react';
-
-const values = [
-  {
-    icon: Target,
-    title: 'Our Mission',
-    desc: 'To deliver the freshest farm products directly to your table with absolute transparency and care.',
-  },
-  {
-    icon: Users,
-    title: 'Community First',
-    desc: 'Supporting local businesses and families with reliable, high-quality bulk and retail supply.',
-  },
-  {
-    icon: ShieldCheck,
-    title: 'Quality Guarantee',
-    desc: 'Every egg is carefully inspected, ensuring only the finest reaches our customers.',
-  },
-];
+import { Target, Users, Leaf, Award, Egg } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const milestones = [
-  { icon: Award,  value: '12+',   label: 'Years of Farming' },
-  { icon: Egg,    value: '500K+', label: 'Eggs Delivered'   },
-  { icon: Users,  value: '200+',  label: 'Happy Clients'    },
-  { icon: Leaf,   value: '100%',  label: 'Free Range'       },
+  {
+    year: '1985',
+    title: 'The Roots',
+    desc: 'Founded on a modest 50-acre plot, focusing on traditional cultivation and community supply.',
+  },
+  {
+    year: '2005',
+    title: 'Expansion & Innovation',
+    desc: 'Introduced integrated farming techniques and expanded operations to include automated logistics.',
+  },
+  {
+    year: 'Present Day',
+    title: 'Modern Operations',
+    desc: 'Now operating across thousands of acres, utilizing data analytics to drive sustainable enterprise logistics.',
+  },
 ];
+
+const teamMembers = [
+  { name: 'Sarah Jenkins',  role: 'Minister of Operations',  img: '/team-1.png' },
+  { name: 'Dr. Aris Thorne', role: 'Chief Agronomist',       img: '/team-2.png' },
+  { name: 'Marcus Chen',    role: 'Logistics Manager',       img: '/team-3.png' },
+  { name: 'Elena Rostova',  role: 'Sustainability Lead',     img: '/team-4.png' },
+];
+
+const missionTags = ['Water Conservation', 'Soil Restoration'];
 
 const About = () => {
   return (
-    <div className="w-full" style={{ backgroundColor: '#EBEBEB' }}>
+    <div className="w-full" style={{ backgroundColor: '#F5F3EF' }}>
 
-      {/* ── Hero Banner ── */}
-      <section className="relative h-72 md:h-80 flex items-end overflow-hidden">
-        {/* Background image */}
+      {/* ── Hero Banner ──────────────────────────────────────────────────── */}
+      <section className="relative overflow-hidden" style={{ height: '52vh', minHeight: '340px' }}>
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('/about-hero.png')" }}
+          style={{ backgroundImage: "url('/about-hero-new.png')" }}
         />
-        {/* Dark overlay for text contrast */}
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.40) 50%, transparent 100%)' }} />
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.50), transparent)' }} />
-
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-10 w-full">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: '#DDBA9B' }}>Our Story</p>
-            <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight">
-              About Wimalasooriya Farms
-            </h1>
-            <p className="mt-2 text-lg max-w-xl" style={{ color: 'rgba(255,255,255,0.75)' }}>
-              A legacy of purity, freshness, and quality — rooted in Sri Lanka's countryside.
-            </p>
-          </motion.div>
+        <div
+          className="absolute inset-0"
+          style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.22) 0%, rgba(0,0,0,0.55) 100%)' }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.50), transparent 60%)' }}
+        />
+        <div className="relative z-10 h-full flex items-end">
+          <div className="max-w-7xl mx-auto px-6 lg:px-10 pb-12 w-full">
+            <motion.div
+              initial={{ opacity: 0, y: 22 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <h1
+                className="text-4xl md:text-5xl font-bold text-white leading-tight mb-3"
+                style={{ fontFamily: 'Georgia, serif' }}
+              >
+                Cultivating Heritage,<br />Engineering the Future.
+              </h1>
+              <p className="text-base max-w-xl" style={{ color: 'rgba(255,255,255,0.78)' }}>
+                Wimalasooriya Farm blends the timeless art of agriculture with cutting-edge sustainable practices, ensuring quality from our soil to your table.
+              </p>
+            </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* ── Story + Values ── */}
-      <section
-        className="py-20 relative"
-        style={{
-          backgroundColor: '#EBEBEB',
-          backgroundImage: `radial-gradient(circle, rgba(0,0,0,0.07) 1px, transparent 1px)`,
-          backgroundSize: '30px 30px',
-        }}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-14 items-start">
+      {/* ── Our Mission ──────────────────────────────────────────────────── */}
+      <section className="py-20" style={{ backgroundColor: '#F5F3EF' }}>
+        <div className="max-w-7xl mx-auto px-6 lg:px-10">
+          {/* Section label */}
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.45 }}
+            className="flex items-center gap-3 mb-10"
+          >
+            <Target className="w-5 h-5" style={{ color: '#3E2206' }} />
+            <h2 className="text-xl font-bold" style={{ color: '#1A1208' }}>Our Mission</h2>
+          </motion.div>
 
-            {/* Story text */}
+          <div className="grid md:grid-cols-5 gap-8 items-start">
+            {/* Text left */}
             <motion.div
               initial={{ opacity: 0, x: -24 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: '-60px' }}
               transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-              className="space-y-5"
+              className="md:col-span-3 rounded-2xl p-8 border"
+              style={{ backgroundColor: '#FFFFFF', borderColor: '#E8E3DC' }}
             >
-              <h2 className="text-3xl font-bold" style={{ color: '#013547' }}>How It All Started</h2>
-              <p className="leading-relaxed text-lg" style={{ color: '#6C6F6E' }}>
-                Founded on the principles of hard work and an uncompromising dedication to nature, Wimalasooriya Farms began as a small family operation. We believed the clean, open countryside of Sri Lanka provided the perfect setting for healthy, ethical farming.
+              <h3 className="text-2xl font-bold mb-4" style={{ color: '#1A1208', fontFamily: 'Georgia, serif' }}>
+                Sustainable Agriculture at Scale
+              </h3>
+              <p className="leading-relaxed mb-6" style={{ color: '#5C4F3D' }}>
+                We believe that modern farming must work in harmony with nature, not against it. Our mission is to pioneer sustainable agricultural methods that yield high-quality produce while actively restoring soil health, conserving water, and supporting local ecosystems. We combine deep agricultural knowledge with data-driven precision to ensure every acre thrives.
               </p>
-              <p className="leading-relaxed text-lg" style={{ color: '#6C6F6E' }}>
-                Today, we've grown into a trusted platform supplying both retail customers and wholesale businesses — but our core philosophy remains unchanged:{' '}
-                <strong style={{ color: '#013547' }}>pure, fresh, and ethically raised.</strong>
-              </p>
-
-              {/* Milestone stats */}
-              <div className="grid grid-cols-2 gap-4 pt-4">
-                {milestones.map(({ icon: Icon, value, label }) => (
-                  <motion.div
-                    key={label}
-                    initial={{ opacity: 0, y: 16 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-                    className="backdrop-blur-sm rounded-2xl p-4 flex items-center gap-3 shadow-sm hover:-translate-y-1 transition-transform duration-300 border"
-                    style={{ backgroundColor: '#D0D8DF', borderColor: 'rgba(108,111,110,0.18)' }}
+              <div className="flex flex-wrap gap-3">
+                {missionTags.map(tag => (
+                  <span
+                    key={tag}
+                    className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full border"
+                    style={{ backgroundColor: '#F5EDE3', borderColor: '#D4B99A', color: '#3E2206' }}
                   >
-                    <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ backgroundColor: 'rgba(221,186,155,0.25)' }}>
-                      <Icon className="w-5 h-5" style={{ color: '#013547' }} />
-                    </div>
-                    <div>
-                      <p className="text-xl font-bold leading-none" style={{ color: '#013547' }}>{value}</p>
-                      <p className="text-xs mt-0.5" style={{ color: '#6C6F6E' }}>{label}</p>
-                    </div>
-                  </motion.div>
+                    <Leaf className="w-3 h-3" />
+                    {tag}
+                  </span>
                 ))}
               </div>
             </motion.div>
 
-            {/* Values cards */}
+            {/* Image right */}
             <motion.div
               initial={{ opacity: 0, x: 24 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: '-60px' }}
               transition={{ duration: 0.55, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="space-y-4"
+              className="md:col-span-2 rounded-2xl overflow-hidden relative"
+              style={{ height: '280px' }}
             >
-              {values.map(({ icon: Icon, title, desc }, i) => (
-                <motion.div
-                  key={title}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.45, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
-                  className="backdrop-blur-sm border rounded-2xl p-6 flex items-start gap-4 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300"
-                  style={{ backgroundColor: '#D0D8DF', borderColor: 'rgba(108,111,110,0.18)' }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(221,186,155,0.50)'; }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(108,111,110,0.18)'; }}
-                >
-                  <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0" style={{ backgroundColor: 'rgba(221,186,155,0.22)' }}>
-                    <Icon className="w-5 h-5" style={{ color: '#013547' }} />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold mb-1" style={{ color: '#013547' }}>{title}</h3>
-                    <p className="text-sm leading-relaxed" style={{ color: '#6C6F6E' }}>{desc}</p>
-                  </div>
-                </motion.div>
-              ))}
-
-              {/* Logo accent */}
-              <div className="flex items-center gap-4 pt-2 pl-2">
-                <img src="/logo.png" alt="Wimalasooriya Farms" className="w-14 h-14 object-contain" />
-                <div>
-                  <p className="font-bold" style={{ color: '#013547' }}>Wimalasooriya Farms</p>
-                  <p className="text-xs" style={{ color: '#6C6F6E' }}>Trusted since 2012 · Sri Lanka</p>
-                </div>
+              <img
+                src="/commitment-quality.png"
+                alt="Commitment to Quality"
+                className="w-full h-full object-cover"
+              />
+              <div
+                className="absolute bottom-0 inset-x-0 p-5"
+                style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.72) 0%, transparent 100%)' }}
+              >
+                <p className="text-white font-bold text-lg" style={{ fontFamily: 'Georgia, serif' }}>Commitment to Quality</p>
+                <p className="text-xs" style={{ color: 'rgba(255,255,255,0.70)' }}>Uncompromising standards in every harvest.</p>
               </div>
             </motion.div>
-
           </div>
         </div>
       </section>
 
-      {/* ── Bottom CTA strip ── */}
-      <section
-        className="relative py-14 overflow-hidden"
-        style={{
-          backgroundImage: "url('/about-hero.png')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center 60%',
-          backgroundAttachment: 'fixed',
-        }}
-      >
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom right, rgba(0,0,0,0.85), rgba(0,0,0,0.70))' }} />
-        <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">Ready to taste the difference?</h2>
-          <p className="mb-7" style={{ color: 'rgba(255,255,255,0.70)' }}>Place a bulk order or get in touch with us today.</p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="/bulk-orders"
-              className="inline-flex items-center justify-center px-7 py-3 font-bold rounded-xl transition-all duration-300 shadow-lg hover:-translate-y-0.5 transform"
-              style={{ backgroundColor: '#52311B', color: '#ffffff' }}
-              onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#ffffff'; e.currentTarget.style.color = '#52311B'; }}
-              onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#52311B'; e.currentTarget.style.color = '#ffffff'; }}
+      {/* ── Our History ──────────────────────────────────────────────────── */}
+      <section className="py-16" style={{ backgroundColor: '#F5F3EF' }}>
+        <div className="max-w-7xl mx-auto px-6 lg:px-10">
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.45 }}
+            className="flex items-center gap-3 mb-10"
+          >
+            <Award className="w-5 h-5" style={{ color: '#3E2206' }} />
+            <h2 className="text-xl font-bold" style={{ color: '#1A1208' }}>Our History</h2>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {milestones.map(({ year, title, desc }, i) => (
+              <motion.div
+                key={year}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.5, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                className="p-7 rounded-2xl border transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
+                style={{ backgroundColor: '#FFFFFF', borderColor: '#E8E3DC' }}
+              >
+                {/* Timeline dot + line */}
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: '#3E2206' }} />
+                  <div className="flex-1 h-px" style={{ backgroundColor: '#E8E3DC' }} />
+                </div>
+                <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: '#9E8872' }}>{year}</p>
+                <h3 className="text-lg font-bold mb-2" style={{ color: '#1A1208', fontFamily: 'Georgia, serif' }}>{title}</h3>
+                <p className="text-sm leading-relaxed" style={{ color: '#7A6A56' }}>{desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Leadership Team ───────────────────────────────────────────────── */}
+      <section className="py-16 pb-24" style={{ backgroundColor: '#F5F3EF' }}>
+        <div className="max-w-7xl mx-auto px-6 lg:px-10">
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.45 }}
+            className="flex items-center justify-between mb-10"
+          >
+            <div className="flex items-center gap-3">
+              <Users className="w-5 h-5" style={{ color: '#3E2206' }} />
+              <h2 className="text-xl font-bold" style={{ color: '#1A1208' }}>Leadership Team</h2>
+            </div>
+            <Link
+              to="/contact"
+              className="px-5 py-2 text-sm font-semibold rounded-lg transition-all duration-200 hover:-translate-y-0.5"
+              style={{ backgroundColor: '#3E2206', color: '#fff' }}
             >
-              Bulk Orders
-            </a>
-            <a
-              href="/contact"
-              className="inline-flex items-center justify-center px-7 py-3 font-semibold rounded-xl border backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 transform"
-              style={{ backgroundColor: 'rgba(255,255,255,0.12)', color: '#ffffff', borderColor: 'rgba(255,255,255,0.30)' }}
-              onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.22)'; }}
-              onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.12)'; }}
-            >
-              Contact Us
-            </a>
+              Join Our Team
+            </Link>
+          </motion.div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {teamMembers.map(({ name, role, img }, i) => (
+              <motion.div
+                key={name}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.5, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                className="group"
+              >
+                <div
+                  className="rounded-2xl overflow-hidden mb-4 transition-transform duration-300 group-hover:-translate-y-1"
+                  style={{ aspectRatio: '3/4' }}
+                >
+                  <img
+                    src={img}
+                    alt={name}
+                    className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+                <p className="font-bold text-sm" style={{ color: '#1A1208' }}>{name}</p>
+                <p className="text-xs mt-0.5" style={{ color: '#9E8872' }}>{role}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>

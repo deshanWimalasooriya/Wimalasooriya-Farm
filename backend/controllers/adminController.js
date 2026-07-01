@@ -173,10 +173,83 @@ const getAllUsers = async (req, res) => {
   }
 };
 
+// @desc    Get single user by ID
+// @route   GET /api/admin/users/:id
+// @access  Private/Admin
+const getUserById = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id).select('-password');
+    if (user) {
+      res.json(user);
+    } else {
+      res.status(404).json({ message: 'User not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Server error fetching user' });
+  }
+};
+
+// @desc    Update user details & roles
+// @route   PUT /api/admin/users/:id
+// @access  Private/Admin
+const updateUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (user) {
+      user.name = req.body.name || user.name;
+      user.email = req.body.email || user.email;
+      
+      // We explicitly check for undefined so we can set it to false if needed
+      if (req.body.isAdmin !== undefined) {
+        user.isAdmin = req.body.isAdmin;
+      }
+      if (req.body.isManager !== undefined) {
+        user.isManager = req.body.isManager;
+      }
+
+      const updatedUser = await user.save();
+      res.json({
+        _id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        isAdmin: updatedUser.isAdmin,
+        isManager: updatedUser.isManager
+      });
+    } else {
+      res.status(404).json({ message: 'User not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Server error updating user' });
+  }
+};
+
+// @desc    Delete user
+// @route   DELETE /api/admin/users/:id
+// @access  Private/Admin
+const deleteUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (user) {
+      if (user.isAdmin) {
+        return res.status(400).json({ message: 'Cannot delete an admin user' });
+      }
+      await User.deleteOne({ _id: user._id });
+      res.json({ message: 'User removed successfully' });
+    } else {
+      res.status(404).json({ message: 'User not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Server error deleting user' });
+  }
+};
+
 module.exports = {
   getAnalytics,
   getAdvancedAnalytics,
   getAllOrders,
   updateProduct,
-  getAllUsers
+  getAllUsers,
+  getUserById,
+  updateUser,
+  deleteUser
 };

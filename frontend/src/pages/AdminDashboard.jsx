@@ -13,6 +13,7 @@ import io from 'socket.io-client';
 import WorkerManagement from '../components/admin/WorkerManagement';
 import AnalysisDashboard from '../components/admin/AnalysisDashboard';
 import AdminContactMessages from '../components/admin/AdminContactMessages';
+import UserManagement from '../components/admin/UserManagement';
 
 const pageVariants = {
   hidden:  { opacity: 0, y: 14 },
@@ -206,6 +207,7 @@ const AdminDashboard = () => {
     { id: 'bulkOrders',icon: PackageOpen,     label: 'Bulk Orders'     },
     { id: 'contacts',  icon: Mail,            label: 'Contact Inquiries'},
     { id: 'cms',       icon: MessageSquare,   label: 'CMS & Chat'      },
+    { id: 'users',     icon: Users,           label: 'Users'           },
     { id: 'settings',  icon: Settings,        label: 'Settings'        },
   ];
 
@@ -325,8 +327,11 @@ const AdminDashboard = () => {
                   {/* ── WORKERS ─────────────────────────────────────────── */}
                   {activeTab === 'workers' && <WorkerManagement />}
 
-                  {/* ── CONTACT INQUIRIES ───────────────────────────────── */}
+                  {/* Contacts */}
                   {activeTab === 'contacts' && <AdminContactMessages />}
+
+                  {/* Users */}
+                  {activeTab === 'users' && <UserManagement />}
 
                   {/* ── OVERVIEW ────────────────────────────────────────── */}
                   {activeTab === 'overview' && analytics && (

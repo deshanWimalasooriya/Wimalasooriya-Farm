@@ -4,7 +4,7 @@ import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import {
   Tractor, Egg, DollarSign, TrendingUp, Minus, Plus,
-  Settings, Users, Truck, BarChart3, LayoutDashboard,
+  Settings, Users, UserCog, Truck, BarChart3, LayoutDashboard,
   Wallet, ChevronRight, AlertCircle, CheckCircle2,
   ArrowUpRight, ArrowDownRight, Feather, Building2, Shield, Calendar, ImagePlus, Mail, Phone, MapPin, Save, Loader2, ListOrdered
 } from 'lucide-react';
@@ -15,6 +15,7 @@ import TransportManagement from '../components/admin/TransportManagement';
 import FarmAnalysis from '../components/admin/FarmAnalysis';
 import FinancialDashboard from '../components/admin/FinancialDashboard';
 import AdminContactMessages from '../components/admin/AdminContactMessages';
+import UserManagement from '../components/admin/UserManagement';
 
 // ─── Activity Row ─────────────────────────────────────────────────────────────
 const ActivityRow = ({ isNew = false, children }) => (
@@ -278,11 +279,12 @@ const FarmOperations = () => {
     { id: 'overview',    icon: LayoutDashboard, label: 'Overview'            },
     { id: 'financial',   icon: Wallet,          label: 'Financial'           },
     { id: 'analysis',    icon: BarChart3,        label: 'Analysis'            },
-    { id: 'workers',     icon: Users,            label: 'Workers'             },
+    { id: 'workers',     icon: UserCog,          label: 'Workers'             },
     { id: 'transport',   icon: Truck,            label: 'Transport'           },
     { id: 'production',  icon: Tractor,          label: 'Production'          },
     { id: 'orders',      icon: ListOrdered,      label: 'All Orders', badge: pendingOrdersCount },
     { id: 'contacts',    icon: Mail,             label: 'Contact Inquiries'   },
+    { id: 'users',       icon: Users,            label: 'Users'               },
   ];
 
   // ── Render ─────────────────────────────────────────────────────────────────
@@ -304,9 +306,117 @@ const FarmOperations = () => {
       />
       <div className="relative z-10 max-w-[1400px] mx-auto px-4 sm:px-6 py-8 flex flex-col md:flex-row gap-6">
 
+        {/* ── LEFT Navigation Panel (15%) ──────────────────────────────── */}
+        <div className="w-full md:w-52 flex-shrink-0">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.45, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="sticky top-[20px] md:top-[90px]"
+          >
+            {/* Brand/Header */}
+            <div
+              className="rounded-2xl p-4 mb-3 border shadow-xl"
+              style={{ background: '#52311B', borderColor: 'rgba(134,97,47,0.25)' }}
+            >
+              <div className="flex items-center gap-2.5 mb-0.5">
+                <div className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0" style={{ backgroundColor: '#86612F' }}>
+                  <Tractor className="w-4 h-4" style={{ color: '#52311B' }} />
+                </div>
+                <div className="min-w-0">
+                  <p className="font-bold text-sm leading-tight" style={{ color: '#ffffff' }}>Farm Ops</p>
+                  <p className="text-[11px] truncate" style={{ color: 'rgba(255,255,255,0.70)' }}>{user?.name}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Nav */}
+            <div
+              className="rounded-2xl p-2.5 border shadow-xl"
+              style={{ background: '#52311B', borderColor: 'rgba(134,97,47,0.15)' }}
+            >
+              <p className="text-[10px] font-bold uppercase tracking-widest px-2 mb-2" style={{ color: 'rgba(255,255,255,0.50)' }}>Modules</p>
+              <nav className="space-y-0.5">
+                {navItems.map(({ id, icon: Icon, label, badge }) => (
+                  <motion.button
+                    key={id}
+                    whileTap={{ scale: 0.97 }}
+                    onClick={() => setActiveTab(id)}
+                    className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl font-medium transition-all text-sm"
+                    style={{
+                      backgroundColor: activeTab === id ? '#86612F' : 'transparent',
+                      color: activeTab === id ? '#ffffff' : 'rgba(255,255,255,0.70)',
+                    }}
+                    onMouseEnter={e => {
+                      if (activeTab !== id) {
+                        e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.10)';
+                        e.currentTarget.style.color = '#ffffff';
+                      }
+                    }}
+                    onMouseLeave={e => {
+                      if (activeTab !== id) {
+                        e.currentTarget.style.backgroundColor = 'transparent';
+                        e.currentTarget.style.color = 'rgba(255,255,255,0.70)';
+                      }
+                    }}
+                  >
+                    <Icon className="w-4 h-4 flex-shrink-0" />
+                    <span className="flex-1 text-left">{label}</span>
+                    {badge > 0 && (
+                      <span className="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+                        {badge}
+                      </span>
+                    )}
+                    {activeTab === id && (
+                      <motion.div layoutId="active-farm-pip">
+                        <ChevronRight className="w-3 h-3" />
+                      </motion.div>
+                    )}
+                  </motion.button>
+                ))}
+
+                <div className="my-2 border-t" style={{ borderColor: 'rgba(134,97,47,0.15)' }} />
+
+                <motion.button
+                  whileTap={{ scale: 0.97 }}
+                  onClick={() => setActiveTab('settings')}
+                  className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl font-medium transition-all text-sm"
+                  style={{
+                    backgroundColor: activeTab === 'settings' ? '#86612F' : 'transparent',
+                    color: activeTab === 'settings' ? '#ffffff' : 'rgba(255,255,255,0.70)',
+                  }}
+                  onMouseEnter={e => {
+                    if (activeTab !== 'settings') {
+                      e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.10)';
+                      e.currentTarget.style.color = '#ffffff';
+                    }
+                  }}
+                  onMouseLeave={e => {
+                    if (activeTab !== 'settings') {
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                      e.currentTarget.style.color = 'rgba(255,255,255,0.70)';
+                    }
+                  }}
+                >
+                  <Settings className="w-4 h-4 flex-shrink-0" />
+                  <span className="flex-1 text-left">Settings</span>
+                </motion.button>
+              </nav>
+
+              {/* Live Hen Count Footer */}
+              {summary && (
+                <div className="mt-3 p-3 rounded-xl border" style={{ backgroundColor: 'rgba(134,97,47,0.12)', borderColor: 'rgba(134,97,47,0.20)' }}>
+                  <p className="text-[10px] font-medium uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.60)' }}>Live Hens</p>
+                  <p className="text-xl font-bold mt-0.5" style={{ color: '#ffffff' }}>{summary.totalHens.toLocaleString()}</p>
+                  <p className="text-[10px]" style={{ color: 'rgba(255,255,255,0.40)' }}>Current inventory</p>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        </div>
 
         {/* ── RIGHT: Main Content (85%) ─────────────────────────── */}
-        <div className="flex-1 min-w-0">
+        <div className="flex-1 min-w-0 min-h-[calc(100vh-120px)]">
 
           {/* Page Header */}
           <motion.div
@@ -539,6 +649,13 @@ const FarmOperations = () => {
                 {/* ── CONTACT INQUIRIES ─────────────────────────────── */}
                 {activeTab === 'contacts' && <AdminContactMessages />}
 
+                {/* ── USERS ───────────────────────────────────────────── */}
+                {activeTab === 'users' && (
+                  <div className="bg-white/95 rounded-2xl p-4 shadow-xl border" style={{ borderColor: 'rgba(82,49,27,0.10)' }}>
+                    <UserManagement />
+                  </div>
+                )}
+
                 {/* ── ANALYSIS ────────────────────────────────────────── */}
                 {activeTab === 'analysis' && (
                   <div className="bg-white/95 rounded-2xl p-4 shadow-xl border" style={{ borderColor: 'rgba(82,49,27,0.10)' }}>
@@ -750,114 +867,7 @@ const FarmOperations = () => {
           </AnimatePresence>
         </div>
 
-        {/* ── LEFT Navigation Panel (15%) ──────────────────────────────── */}
-        <div className="w-full md:w-52 flex-shrink-0 order-first">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.45, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="sticky top-24"
-          >
-            {/* Brand/Header */}
-            <div
-              className="rounded-2xl p-4 mb-3 border shadow-xl"
-              style={{ background: '#52311B', borderColor: 'rgba(134,97,47,0.25)' }}
-            >
-              <div className="flex items-center gap-2.5 mb-0.5">
-                <div className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0" style={{ backgroundColor: '#86612F' }}>
-                  <Tractor className="w-4 h-4" style={{ color: '#52311B' }} />
-                </div>
-                <div className="min-w-0">
-                  <p className="font-bold text-sm leading-tight" style={{ color: '#ffffff' }}>Farm Ops</p>
-                  <p className="text-[11px] truncate" style={{ color: 'rgba(255,255,255,0.70)' }}>{user?.name}</p>
-                </div>
-              </div>
-            </div>
 
-            {/* Nav */}
-            <div
-              className="rounded-2xl p-2.5 border shadow-xl"
-              style={{ background: '#52311B', borderColor: 'rgba(134,97,47,0.15)' }}
-            >
-              <p className="text-[10px] font-bold uppercase tracking-widest px-2 mb-2" style={{ color: 'rgba(255,255,255,0.50)' }}>Modules</p>
-              <nav className="space-y-0.5">
-                {navItems.map(({ id, icon: Icon, label, badge }) => (
-                  <motion.button
-                    key={id}
-                    whileTap={{ scale: 0.97 }}
-                    onClick={() => setActiveTab(id)}
-                    className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl font-medium transition-all text-sm"
-                    style={{
-                      backgroundColor: activeTab === id ? '#86612F' : 'transparent',
-                      color: activeTab === id ? '#ffffff' : 'rgba(255,255,255,0.70)',
-                    }}
-                    onMouseEnter={e => {
-                      if (activeTab !== id) {
-                        e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.10)';
-                        e.currentTarget.style.color = '#ffffff';
-                      }
-                    }}
-                    onMouseLeave={e => {
-                      if (activeTab !== id) {
-                        e.currentTarget.style.backgroundColor = 'transparent';
-                        e.currentTarget.style.color = 'rgba(255,255,255,0.70)';
-                      }
-                    }}
-                  >
-                    <Icon className="w-4 h-4 flex-shrink-0" />
-                    <span className="flex-1 text-left">{label}</span>
-                    {badge > 0 && (
-                      <span className="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
-                        {badge}
-                      </span>
-                    )}
-                    {activeTab === id && (
-                      <motion.div layoutId="active-farm-pip">
-                        <ChevronRight className="w-3 h-3" />
-                      </motion.div>
-                    )}
-                  </motion.button>
-                ))}
-
-                <div className="my-2 border-t" style={{ borderColor: 'rgba(134,97,47,0.15)' }} />
-
-                <motion.button
-                  whileTap={{ scale: 0.97 }}
-                  onClick={() => setActiveTab('settings')}
-                  className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl font-medium transition-all text-sm"
-                  style={{
-                    backgroundColor: activeTab === 'settings' ? '#86612F' : 'transparent',
-                    color: activeTab === 'settings' ? '#ffffff' : 'rgba(255,255,255,0.70)',
-                  }}
-                  onMouseEnter={e => {
-                    if (activeTab !== 'settings') {
-                      e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.10)';
-                      e.currentTarget.style.color = '#ffffff';
-                    }
-                  }}
-                  onMouseLeave={e => {
-                    if (activeTab !== 'settings') {
-                      e.currentTarget.style.backgroundColor = 'transparent';
-                      e.currentTarget.style.color = 'rgba(255,255,255,0.70)';
-                    }
-                  }}
-                >
-                  <Settings className="w-4 h-4 flex-shrink-0" />
-                  <span className="flex-1 text-left">Settings</span>
-                </motion.button>
-              </nav>
-
-              {/* Live Hen Count Footer */}
-              {summary && (
-                <div className="mt-3 p-3 rounded-xl border" style={{ backgroundColor: 'rgba(134,97,47,0.12)', borderColor: 'rgba(134,97,47,0.20)' }}>
-                  <p className="text-[10px] font-medium uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.60)' }}>Live Hens</p>
-                  <p className="text-xl font-bold mt-0.5" style={{ color: '#ffffff' }}>{summary.totalHens.toLocaleString()}</p>
-                  <p className="text-[10px]" style={{ color: 'rgba(255,255,255,0.40)' }}>Current inventory</p>
-                </div>
-              )}
-            </div>
-          </motion.div>
-        </div>
 
       </div>
     </div>

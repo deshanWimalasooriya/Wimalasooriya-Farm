@@ -1,7 +1,8 @@
-import { Mail, Phone, MapPin, Send, Share2, Camera, Briefcase } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, Share2, Camera, Briefcase, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { toast } from 'react-hot-toast';
 
 const Contact = () => {
   const [company, setCompany] = useState({
@@ -13,7 +14,6 @@ const Contact = () => {
   const [formData, setFormData] = useState({
     firstName: '', lastName: '', email: '', subject: 'General Inquiry', message: '',
   });
-
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
 
@@ -31,17 +31,36 @@ const Contact = () => {
   }, []);
 
   const handleChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!formData.firstName.trim() || !formData.email.trim() || !formData.message.trim()) {
+      toast.error('Please fill in all required fields.');
+      return;
+    }
+
     setLoading(true);
-    // Simulate send
-    await new Promise(res => setTimeout(res, 1200));
-    setLoading(false);
-    setSent(true);
-    setFormData({ firstName: '', lastName: '', email: '', subject: 'General Inquiry', message: '' });
-    setTimeout(() => setSent(false), 4000);
+    try {
+      await axios.post('/api/contact', {
+        firstName: formData.firstName.trim(),
+        lastName:  formData.lastName.trim() || formData.firstName.trim(),
+        email:     formData.email.trim(),
+        subject:   formData.subject,
+        message:   formData.message.trim(),
+      });
+
+      toast.success('Message sent! We\'ll get back to you shortly.');
+      setSent(true);
+      setFormData({ firstName: '', lastName: '', email: '', subject: 'General Inquiry', message: '' });
+      setTimeout(() => setSent(false), 5000);
+    } catch (err) {
+      const msg = err.response?.data?.message || 'Failed to send message. Please try again.';
+      toast.error(msg);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const inputStyle = {
@@ -49,13 +68,13 @@ const Contact = () => {
     backgroundColor: '#FAFAF8',
     color: '#1A1208',
   };
-  const inputFocus = (e) => {
+  const onFocusInput = (e) => {
     e.currentTarget.style.borderColor = '#3E2206';
-    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(62,34,6,0.10)';
+    e.currentTarget.style.boxShadow   = '0 0 0 3px rgba(62,34,6,0.10)';
   };
-  const inputBlur = (e) => {
+  const onBlurInput  = (e) => {
     e.currentTarget.style.borderColor = '#D4C5B0';
-    e.currentTarget.style.boxShadow = 'none';
+    e.currentTarget.style.boxShadow   = 'none';
   };
 
   return (
@@ -106,24 +125,28 @@ const Contact = () => {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold mb-1.5" style={{ color: '#5C4F3D' }}>Full Name</label>
+                  <label className="block text-xs font-semibold mb-1.5" style={{ color: '#5C4F3D' }}>
+                    Full Name <span style={{ color: '#C0392B' }}>*</span>
+                  </label>
                   <input
-                    type="text" name="firstName"
+                    type="text" name="firstName" required
                     value={formData.firstName} onChange={handleChange}
                     className="w-full px-4 py-2.5 rounded-lg border outline-none text-sm transition-all"
                     style={inputStyle}
-                    onFocus={inputFocus} onBlur={inputBlur}
+                    onFocus={onFocusInput} onBlur={onBlurInput}
                     placeholder="Jane Doe"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold mb-1.5" style={{ color: '#5C4F3D' }}>Email Address</label>
+                  <label className="block text-xs font-semibold mb-1.5" style={{ color: '#5C4F3D' }}>
+                    Email Address <span style={{ color: '#C0392B' }}>*</span>
+                  </label>
                   <input
-                    type="email" name="email"
+                    type="email" name="email" required
                     value={formData.email} onChange={handleChange}
                     className="w-full px-4 py-2.5 rounded-lg border outline-none text-sm transition-all"
                     style={inputStyle}
-                    onFocus={inputFocus} onBlur={inputBlur}
+                    onFocus={onFocusInput} onBlur={onBlurInput}
                     placeholder="jane@example.com"
                   />
                 </div>
@@ -135,8 +158,15 @@ const Contact = () => {
                   name="subject"
                   value={formData.subject} onChange={handleChange}
                   className="w-full px-4 py-2.5 rounded-lg border outline-none text-sm transition-all appearance-none"
-                  style={{ ...inputStyle, backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%239E8872' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 0.75rem center', backgroundSize: '1.1rem', paddingRight: '2.5rem' }}
-                  onFocus={inputFocus} onBlur={inputBlur}
+                  style={{
+                    ...inputStyle,
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%239E8872' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E")`,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'right 0.75rem center',
+                    backgroundSize: '1.1rem',
+                    paddingRight: '2.5rem',
+                  }}
+                  onFocus={onFocusInput} onBlur={onBlurInput}
                 >
                   <option>General Inquiry</option>
                   <option>Retail Order</option>
@@ -147,13 +177,15 @@ const Contact = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold mb-1.5" style={{ color: '#5C4F3D' }}>Message</label>
+                <label className="block text-xs font-semibold mb-1.5" style={{ color: '#5C4F3D' }}>
+                  Message <span style={{ color: '#C0392B' }}>*</span>
+                </label>
                 <textarea
-                  name="message" rows="5"
+                  name="message" rows="5" required
                   value={formData.message} onChange={handleChange}
                   className="w-full px-4 py-2.5 rounded-lg border outline-none text-sm resize-none transition-all"
                   style={inputStyle}
-                  onFocus={inputFocus} onBlur={inputBlur}
+                  onFocus={onFocusInput} onBlur={onBlurInput}
                   placeholder="How can we assist you today?"
                 />
               </div>
@@ -167,19 +199,18 @@ const Contact = () => {
                   style={{
                     backgroundColor: sent ? '#2D6A4F' : '#3E2206',
                     boxShadow: `0 4px 16px rgba(62,34,6,0.28)`,
+                    opacity: loading || sent ? 0.85 : 1,
                   }}
                   onMouseEnter={e => { if (!loading && !sent) e.currentTarget.style.backgroundColor = '#5a3209'; }}
                   onMouseLeave={e => { if (!loading && !sent) e.currentTarget.style.backgroundColor = sent ? '#2D6A4F' : '#3E2206'; }}
                 >
                   {loading ? (
-                    <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" /></svg>
+                    <><Loader2 className="w-4 h-4 animate-spin" /> Sending...</>
                   ) : sent ? (
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                    <><svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg> Message Sent!</>
                   ) : (
-                    <Send className="w-4 h-4" />
+                    <><Send className="w-4 h-4" /> Send Message <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg></>
                   )}
-                  {loading ? 'Sending...' : sent ? 'Message Sent!' : 'Send Message'}
-                  {!loading && !sent && <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>}
                 </motion.button>
               </div>
             </form>
@@ -196,19 +227,16 @@ const Contact = () => {
               className="rounded-2xl border overflow-hidden"
               style={{ backgroundColor: '#FFFFFF', borderColor: '#E8E3DC' }}
             >
-              {/* Map image */}
               <div
                 className="h-44 bg-cover bg-center relative"
                 style={{ backgroundImage: "url('/about-hero-new.png')" }}
               >
                 <div className="absolute inset-0" style={{ background: 'rgba(0,0,0,0.20)' }} />
-                {/* HQ badge */}
                 <div
                   className="absolute bottom-3 left-3 flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-white"
                   style={{ backgroundColor: 'rgba(62,34,6,0.85)', backdropFilter: 'blur(4px)' }}
                 >
-                  <MapPin className="w-3.5 h-3.5" />
-                  HQ
+                  <MapPin className="w-3.5 h-3.5" /> HQ
                 </div>
               </div>
               <div className="p-6">
@@ -243,9 +271,9 @@ const Contact = () => {
               <p className="text-sm mb-5" style={{ color: '#9E8872' }}>Follow our daily operations and community updates.</p>
               <div className="flex gap-3">
                 {[
-                  { icon: Share2,   label: 'Share'     },
-                  { icon: Camera,   label: 'Instagram' },
-                  { icon: Briefcase, label: 'LinkedIn' },
+                  { icon: Share2,    label: 'Share'     },
+                  { icon: Camera,    label: 'Instagram' },
+                  { icon: Briefcase, label: 'LinkedIn'  },
                 ].map(({ icon: Icon, label }) => (
                   <button
                     key={label}

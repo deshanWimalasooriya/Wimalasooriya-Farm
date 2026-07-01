@@ -17,6 +17,7 @@ const workerRoutes = require('./routes/workerRoutes');
 const transportRoutes = require('./routes/transportRoutes');
 const companyRoutes = require('./routes/companyRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
+const contactRoutes = require('./routes/contactRoutes');
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
@@ -41,6 +42,7 @@ app.use('/api/admin/workers', workerRoutes);
 app.use('/api/admin/transport', transportRoutes);
 app.use('/api/company', companyRoutes);
 app.use('/api/notifications', notificationRoutes);
+app.use('/api/contact', contactRoutes);
 
 // Socket.io integration
 io.on('connection', (socket) => {

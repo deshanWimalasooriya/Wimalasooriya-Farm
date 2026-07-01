@@ -14,6 +14,7 @@ import WorkerManagement from '../components/admin/WorkerManagement';
 import TransportManagement from '../components/admin/TransportManagement';
 import FarmAnalysis from '../components/admin/FarmAnalysis';
 import FinancialDashboard from '../components/admin/FinancialDashboard';
+import AdminContactMessages from '../components/admin/AdminContactMessages';
 
 // ─── Activity Row ─────────────────────────────────────────────────────────────
 const ActivityRow = ({ isNew = false, children }) => (
@@ -274,13 +275,14 @@ const FarmOperations = () => {
 
   // ── Nav items ──────────────────────────────────────────────────────────────
   const navItems = [
-    { id: 'overview',    icon: LayoutDashboard, label: 'Overview' },
-    { id: 'financial',   icon: Wallet,          label: 'Financial' },
-    { id: 'analysis',    icon: BarChart3,        label: 'Analysis' },
-    { id: 'workers',     icon: Users,            label: 'Workers' },
-    { id: 'transport',   icon: Truck,            label: 'Transport' },
-    { id: 'production',  icon: Tractor,          label: 'Production' },
+    { id: 'overview',    icon: LayoutDashboard, label: 'Overview'            },
+    { id: 'financial',   icon: Wallet,          label: 'Financial'           },
+    { id: 'analysis',    icon: BarChart3,        label: 'Analysis'            },
+    { id: 'workers',     icon: Users,            label: 'Workers'             },
+    { id: 'transport',   icon: Truck,            label: 'Transport'           },
+    { id: 'production',  icon: Tractor,          label: 'Production'          },
     { id: 'orders',      icon: ListOrdered,      label: 'All Orders', badge: pendingOrdersCount },
+    { id: 'contacts',    icon: Mail,             label: 'Contact Inquiries'   },
   ];
 
   // ── Render ─────────────────────────────────────────────────────────────────
@@ -533,6 +535,9 @@ const FarmOperations = () => {
                     <TransportManagement />
                   </div>
                 )}
+
+                {/* ── CONTACT INQUIRIES ─────────────────────────────── */}
+                {activeTab === 'contacts' && <AdminContactMessages />}
 
                 {/* ── ANALYSIS ────────────────────────────────────────── */}
                 {activeTab === 'analysis' && (

@@ -12,6 +12,7 @@ import {
 import io from 'socket.io-client';
 import WorkerManagement from '../components/admin/WorkerManagement';
 import AnalysisDashboard from '../components/admin/AnalysisDashboard';
+import AdminContactMessages from '../components/admin/AdminContactMessages';
 
 const pageVariants = {
   hidden:  { opacity: 0, y: 14 },
@@ -197,14 +198,15 @@ const AdminDashboard = () => {
 
   // ── Nav items ──────────────────────────────────────────────────────────────
   const navItems = [
-    { id: 'overview',  icon: LayoutDashboard, label: 'Overview'     },
-    { id: 'analysis',  icon: BarChart3,       label: 'Analysis'     },
-    { id: 'workers',   icon: UserCog,         label: 'Workers'      },
-    { id: 'products',  icon: PackageSearch,   label: 'Products'     },
-    { id: 'orders',    icon: ListOrdered,     label: 'All Orders'   },
-    { id: 'bulkOrders',icon: PackageOpen,     label: 'Bulk Orders'  },
-    { id: 'cms',       icon: MessageSquare,   label: 'CMS & Chat'   },
-    { id: 'settings',  icon: Settings,        label: 'Settings'     },
+    { id: 'overview',  icon: LayoutDashboard, label: 'Overview'        },
+    { id: 'analysis',  icon: BarChart3,       label: 'Analysis'        },
+    { id: 'workers',   icon: UserCog,         label: 'Workers'         },
+    { id: 'products',  icon: PackageSearch,   label: 'Products'        },
+    { id: 'orders',    icon: ListOrdered,     label: 'All Orders'      },
+    { id: 'bulkOrders',icon: PackageOpen,     label: 'Bulk Orders'     },
+    { id: 'contacts',  icon: Mail,            label: 'Contact Inquiries'},
+    { id: 'cms',       icon: MessageSquare,   label: 'CMS & Chat'      },
+    { id: 'settings',  icon: Settings,        label: 'Settings'        },
   ];
 
   return (
@@ -322,6 +324,9 @@ const AdminDashboard = () => {
 
                   {/* ── WORKERS ─────────────────────────────────────────── */}
                   {activeTab === 'workers' && <WorkerManagement />}
+
+                  {/* ── CONTACT INQUIRIES ───────────────────────────────── */}
+                  {activeTab === 'contacts' && <AdminContactMessages />}
 
                   {/* ── OVERVIEW ────────────────────────────────────────── */}
                   {activeTab === 'overview' && analytics && (

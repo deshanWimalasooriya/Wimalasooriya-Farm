@@ -67,7 +67,7 @@ io.on('connection', (socket) => {
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB connected successfully'))
-  .catch((err) => console.log('MongoDB connection error: ', err));
+  .catch((err) => console.log('MongoDB connection error: ', err.message || err));
 
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
